@@ -26,5 +26,29 @@ namespace APSI_ResevationMod.Controllers
 
             return View();
         }
+
+        public ActionResult User()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+
+        }
+
+        public ActionResult Hardware()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+
+        }
+
+        public ActionResult Room()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+
+        }
     }
 }
