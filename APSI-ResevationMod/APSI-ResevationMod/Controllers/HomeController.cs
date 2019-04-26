@@ -28,7 +28,7 @@ namespace APSI_ResevationMod.Controllers
             return View();
         }
 
-        public ActionResult User()
+        public ActionResult UserDetails()
         {
             DetailsUser model = new DetailsUser();
 
@@ -53,7 +53,7 @@ namespace APSI_ResevationMod.Controllers
 
             ViewBag.Message = "User data";
 
-            return View();
+            return View(model);
 
         }
 
