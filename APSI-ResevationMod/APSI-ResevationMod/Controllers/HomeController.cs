@@ -47,8 +47,6 @@ namespace APSI_ResevationMod.Controllers
                 EmployeeID = "123",
                 Project = "APSI nr 4",
                 TimePercentReserved=12,
-
-                
             });
 
             ViewBag.Message = "User data";
@@ -99,6 +97,10 @@ namespace APSI_ResevationMod.Controllers
 
             return View();
 
+        }
+        public ActionResult UnauthorizedRequest()
+        {
+            return View();
         }
     }
 }

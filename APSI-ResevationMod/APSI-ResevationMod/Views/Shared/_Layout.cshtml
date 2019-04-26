@@ -23,10 +23,11 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Room","Room","Home")</li>
-                    <li>@Html.ActionLink("Hardware","Hardware","Home")</li>
-                    <li>@Html.ActionLink("User","User", "Home")</li>
+                    <li>@Html.ActionLink("Room", "Room", "Home")</li>
+                    <li>@Html.ActionLink("Hardware", "Hardware", "Home")</li>
+                    <li>@Html.ActionLink("User", "UserDetails", "Home")</li>
                 </ul>
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
