@@ -21,9 +21,8 @@ namespace APSI_ResevationMod.Controllers
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult AddUser()
         {
-            ViewBag.Message = "Your contact page.";
 
             return View();
         }
@@ -38,7 +37,7 @@ namespace APSI_ResevationMod.Controllers
                 Surname = "Kappa",
                 DateOfbirth = "01.01.1994",
                 EmployeeID = "123",
-                ContactPhone = "666999333"
+                ContactPhone = "666999333",
 
             };
             model.UserReservation = new List<UserReservation>();
@@ -49,6 +48,18 @@ namespace APSI_ResevationMod.Controllers
                 TimePercentReserved=12,
             });
 
+            model.UserReservation.Add(new UserReservation
+            {
+                EmployeeID = "1234",
+                Project = " APSI nr 5",
+                TimePercentReserved = 14,
+            });
+            model.UserReservation.Add(new UserReservation
+            {
+                EmployeeID = "12345",
+                Project = " APSI nr 6 ",
+                TimePercentReserved = 30,
+            });
             ViewBag.Message = "User data";
 
             return View(model);
@@ -70,10 +81,8 @@ namespace APSI_ResevationMod.Controllers
                 WhatIsReserved = "Printer",
                 WhoReserves = "Damian"
             });
-
-            ViewBag.Message = "Hardware data";
-
-            return View();
+            
+            return View(model);
 
         }
 
@@ -95,7 +104,7 @@ namespace APSI_ResevationMod.Controllers
             
             ViewBag.Message = "Room data";
 
-            return View();
+            return View(model);
 
         }
         public ActionResult UnauthorizedRequest()
