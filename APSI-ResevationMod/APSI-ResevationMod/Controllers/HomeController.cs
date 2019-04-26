@@ -46,6 +46,16 @@ namespace APSI_ResevationMod.Controllers
                 ContactPhone = "666999333",
 
             };
+
+            model.User = new User
+            {
+                Name = "Michal",
+                Surname = "Kappa",
+                DateOfbirth = "01.01.1995",
+                EmployeeID = "321",
+                ContactPhone = "999666333",
+
+            };
             model.UserReservation = new List<UserReservation>();
             model.UserReservation.Add(new UserReservation
             {
