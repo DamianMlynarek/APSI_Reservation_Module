@@ -35,13 +35,20 @@ namespace APSI_ResevationMod.Controllers
             model.User = new User
             {
                 Name = "Damian",
-                Surname = "Kappa"
+                Surname = "Kappa",
+                DateOfbirth = "01.01.1994",
+                EmployeeID = "123",
+                ContactPhone = "666999333"
+
             };
             model.UserReservation = new List<UserReservation>();
             model.UserReservation.Add(new UserReservation
             {
                 EmployeeID = "123",
-                Project = "APSI nr 4"
+                Project = "APSI nr 4",
+                TimePercentReserved=12,
+
+                
             });
 
             ViewBag.Message = "User data";
@@ -84,10 +91,9 @@ namespace APSI_ResevationMod.Controllers
             model.RoomReservations = new List<RoomReservation>();
             model.RoomReservations.Add(new RoomReservation
             {
-                RoomNumberReserved= "1234",
-                WhoReserves="Damian"
-            })
-
+                RoomNumberReserved = "1234",
+                WhoReserves = "Damian"
+            });
             
             ViewBag.Message = "Room data";
 

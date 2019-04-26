@@ -1,7 +1,56 @@
-﻿@{
-    ViewBag.Title = "About";
+﻿@model APSI_ResevationMod.Models.User
+
+@{
+    ViewBag.Title = "User";
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+
+<div class="row page-box">
+    <div class="col-sm-12">
+
+
+        @using (Html.BeginForm("Apply"))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name)
+                <div>
+                    @Html.DisplayFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    <p>Damian</p>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Surname)
+                <div>
+                    @Html.DisplayFor(m => m.Surname, new { htmlAttributes = new { @class = "form-control" } })
+                    <p>Kappa</p>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.EmployeeID)
+                <div>
+                    @Html.DisplayFor(m => m.EmployeeID, new { htmlAttributes = new { @class = "form-control" } })
+                    <p>123</p>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ContactPhone)
+                <div>
+                    @Html.DisplayFor(m => m.ContactPhone, new { htmlAttributes = new { @class = "form-control" } })
+                    <p>666999333</p>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.DateOfbirth)
+                <div>
+                    @Html.DisplayFor(m => m.DateOfbirth, "", new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                    <p>01.01.1994</p>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+

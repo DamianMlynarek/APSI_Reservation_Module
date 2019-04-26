@@ -10,8 +10,11 @@ namespace APSI_ResevationMod.Models
         public string Name { get; set; }
         public string EmployeeID { get; set; }
         public string Surname { get; set; }
+        public string ContactPhone { get; set; }
+        public string DateOfbirth { get; set; }
         public enum EmployeeType { Employee, ProjectOwner, Admin}
         
 
     }
+
 }
