@@ -20,6 +20,15 @@
                     <p>Printer</p>
                 </div>
             </div>
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.LabelFor(m => m.HardwareReservations)
+                <div>
+                    @Html.DisplayFor(m => m.HardwareReservations, new { htmlAttributes = new { @class = "form-control" } })
+                    <p>Printer</p>
+                </div>
+            </div>
         }
+
     </div>
 </div>

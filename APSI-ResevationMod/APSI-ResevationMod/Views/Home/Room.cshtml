@@ -21,6 +21,15 @@
                     <p>1234</p>
                 </div>
             </div>
+
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.LabelFor(m => m.RoomReservations)
+                <div>
+                    @Html.DisplayFor(m => m.RoomReservations, new { htmlAttributes = new { @class = "form-control" } })
+                    
+                </div>
+            </div>
         }
-     </div>
+    </div>
 </div>
