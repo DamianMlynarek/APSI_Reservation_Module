@@ -7,5 +7,8 @@ namespace APSI_ResevationMod.Models
 {
     public class DetailsUser
     {
+        public User User { get; set; }
+        public List<UserReservation> UserReservation { get; set; }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using APSI_ResevationMod.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -29,6 +30,20 @@ namespace APSI_ResevationMod.Controllers
 
         public ActionResult User()
         {
+            DetailsUser model = new DetailsUser();
+
+            model.User = new User
+            {
+                Name = "MeHow",
+                Surname = "Kappa"
+            };
+            model.UserReservation = new List<UserReservation>();
+            model.UserReservation.Add(new UserReservation
+            {
+                EmployeeID = "123",
+                Project="APSI nr 4"
+
+            })
             ViewBag.Message = "Your contact page.";
 
             return View();

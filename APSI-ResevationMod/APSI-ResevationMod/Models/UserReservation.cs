@@ -8,8 +8,9 @@ namespace APSI_ResevationMod.Models
     public class UserReservation
     {
         public string Project { get; set; }
-        public string DateFrom { get; set; }
-        public string DateTo { get; set; }
+        public string EmployeeID { get; set; }
+        public DateTime DateFrom { get; set; }
+        public DateTime DateTo { get; set; }
         public  int TimePercentReserved { get; set; }
 
     }
