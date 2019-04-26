@@ -34,17 +34,17 @@ namespace APSI_ResevationMod.Controllers
 
             model.User = new User
             {
-                Name = "MeHow",
+                Name = "Damian",
                 Surname = "Kappa"
             };
             model.UserReservation = new List<UserReservation>();
             model.UserReservation.Add(new UserReservation
             {
                 EmployeeID = "123",
-                Project="APSI nr 4"
+                Project = "APSI nr 4"
+            });
 
-            })
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "User data";
 
             return View();
 
@@ -52,7 +52,21 @@ namespace APSI_ResevationMod.Controllers
 
         public ActionResult Hardware()
         {
-            ViewBag.Message = "Your contact page.";
+            DetailHardware model = new DetailHardware();
+
+            model.Hardware = new Hardware
+            {
+                Name = "Printer"
+            };
+
+            model.HardwareReservations = new List<HardwareReservation>();
+            model.HardwareReservations.Add(new HardwareReservation
+            {
+                WhatIsReserved = "Printer",
+                WhoReserves = "Damian"
+            });
+
+            ViewBag.Message = "Hardware data";
 
             return View();
 
@@ -60,7 +74,22 @@ namespace APSI_ResevationMod.Controllers
 
         public ActionResult Room()
         {
-            ViewBag.Message = "Your contact page.";
+            DetailRoom model = new DetailRoom();
+
+            model.Room = new Room
+            {
+                RoomNumber = "1234"
+            };
+
+            model.RoomReservations = new List<RoomReservation>();
+            model.RoomReservations.Add(new RoomReservation
+            {
+                RoomNumberReserved= "1234",
+                WhoReserves="Damian"
+            })
+
+            
+            ViewBag.Message = "Room data";
 
             return View();
 

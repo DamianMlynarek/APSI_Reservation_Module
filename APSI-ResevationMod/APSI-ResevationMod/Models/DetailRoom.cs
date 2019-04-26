@@ -7,5 +7,7 @@ namespace APSI_ResevationMod.Models
 {
     public class DetailRoom
     {
+        public Room Room { get; set; }
+        public List<RoomReservation> RoomReservations { get; set; }
     }
 }

@@ -7,5 +7,7 @@ namespace APSI_ResevationMod.Models
 {
     public class DetailHardware
     {
+        public Hardware Hardware { get; set; }
+        public List<HardwareReservation> HardwareReservations { get; set; }
     }
 }
