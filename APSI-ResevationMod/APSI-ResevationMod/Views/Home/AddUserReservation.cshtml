@@ -1,0 +1,50 @@
+﻿@model APSI_ResevationMod.Models.UserReservation
+
+@{
+    ViewBag.Title = "Add New User Reservation";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+
+<div class="row page-box">
+    <div class="col-sm-12">
+        <h2>New Reservation</h2>
+        @using (Html.BeginForm("Create"))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.LabelFor(m => m.Project)
+                @Html.EditorFor(m => m.Project, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.EmployeeID)
+                @Html.EditorFor(m => m.EmployeeID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.EmployeeID, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.TimePercentReserved)
+                @Html.EditorFor(m => m.TimePercentReserved, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.TimePercentReserved, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.DateFrom)
+                @Html.EditorFor(m => m.DateFrom, new { htmlAttributes = new { @class = "form-control" }
+                })
+                @Html.ValidationMessageFor(m => m.DateFrom, "yyyy.mm.dd", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.DateTo)
+                @Html.EditorFor(m => m.DateTo, new { htmlAttributes = new { @class = "form-control" }
+                })
+                @Html.ValidationMessageFor(m => m.DateTo, "yyyy.mm.dd", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Add Resevation</button>
+            </div>
+
+        }
+    </div>
+</div>
+
+

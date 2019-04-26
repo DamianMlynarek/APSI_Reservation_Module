@@ -21,6 +21,12 @@ namespace APSI_ResevationMod.Controllers
             return View();
         }
 
+        public ActionResult AddUserReservation()
+        {
+
+            return View();
+        }
+
         public ActionResult AddUser()
         {
 
