@@ -10,6 +10,8 @@ using System.Web;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using System.Threading.Tasks;
+using System.Web.Helpers;
+using System.IdentityModel.Claims;
 
 [assembly: OwinStartup(typeof(APSI_ResevationMod.App_Start.Startup))]
 namespace APSI_ResevationMod.App_Start
@@ -20,7 +22,7 @@ namespace APSI_ResevationMod.App_Start
         private static string aadInstance = ConfigurationManager.AppSettings["ida:AADInstance"];
         private static string tenant = ConfigurationManager.AppSettings["ida:Tenant"];
         private static string postLogoutRedirectUri = ConfigurationManager.AppSettings["ida:PostLogoutRedirectUri"];
-
+       
 
         string authority = String.Format(CultureInfo.InvariantCulture, aadInstance, tenant);
 
@@ -28,6 +30,7 @@ namespace APSI_ResevationMod.App_Start
 
         public void Configuration(IAppBuilder app)
         {
+            AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
             ConfigureAuth(app);
         }
 
