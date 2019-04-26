@@ -1,4 +1,4 @@
-﻿@model APSI_ResevationMod.Models.Room
+﻿@model APSI_ResevationMod.Models.DetailsRoom
 
 @{
     ViewBag.Title = "Room data";
@@ -15,9 +15,9 @@
         {
             @Html.AntiForgeryToken()
             <div class="form-group">
-                @Html.LabelFor(m => m.RoomNumber)
+                @Html.LabelFor(m => m.Room.RoomNumber)
                 <div>
-                    @Html.DisplayFor(m => m.RoomNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.DisplayFor(m => m.Room.RoomNumber, new { htmlAttributes = new { @class = "form-control" } })
                     <p>1234</p>
                 </div>
             </div>

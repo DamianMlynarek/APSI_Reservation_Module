@@ -59,7 +59,7 @@ namespace APSI_ResevationMod.Controllers
 
         public ActionResult Hardware()
         {
-            DetailHardware model = new DetailHardware();
+            DetailsHardware model = new DetailsHardware();
 
             model.Hardware = new Hardware
             {
@@ -81,7 +81,7 @@ namespace APSI_ResevationMod.Controllers
 
         public ActionResult Room()
         {
-            DetailRoom model = new DetailRoom();
+            DetailsRoom model = new DetailsRoom();
 
             model.Room = new Room
             {

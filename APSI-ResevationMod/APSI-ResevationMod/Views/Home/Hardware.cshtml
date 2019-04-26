@@ -1,4 +1,4 @@
-﻿@model APSI_ResevationMod.Models.Hardware
+﻿@model APSI_ResevationMod.Models.DetailsHardware
 
 @{
     ViewBag.Title = "Hardware";
@@ -14,9 +14,9 @@
         {
             @Html.AntiForgeryToken()
             <div class="form-group">
-                @Html.LabelFor(m => m.Name)
+                @Html.LabelFor(m => m.Hardware.Name)
                 <div>
-                    @Html.DisplayFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.DisplayFor(m => m.Hardware.Name, new { htmlAttributes = new { @class = "form-control" } })
                     <p>Printer</p>
                 </div>
             </div>

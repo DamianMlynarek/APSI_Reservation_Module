@@ -1,4 +1,4 @@
-﻿@model APSI_ResevationMod.Models.User
+﻿@model APSI_ResevationMod.Models.DetailsUser
 
 @{
     ViewBag.Title = "User";
@@ -15,37 +15,37 @@
         {
             @Html.AntiForgeryToken()
             <div class="form-group">
-                @Html.LabelFor(model => model.Name)
+                @Html.LabelFor(m => m.User.Name)
                 <div>
-                    @Html.DisplayFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.DisplayFor(m => m.User.Name, new { htmlAttributes = new { @class = "form-control" } })
                     <p>Damian</p>
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.Surname)
+                @Html.LabelFor(m => m.User.Surname)
                 <div>
-                    @Html.DisplayFor(m => m.Surname, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.DisplayFor(m => m.User.Surname, new { htmlAttributes = new { @class = "form-control" } })
                     <p>Kappa</p>
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.EmployeeID)
+                @Html.LabelFor(m => m.User.EmployeeID)
                 <div>
-                    @Html.DisplayFor(m => m.EmployeeID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.DisplayFor(m => m.User.EmployeeID, new { htmlAttributes = new { @class = "form-control" } })
                     <p>123</p>
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.ContactPhone)
+                @Html.LabelFor(m => m.User.ContactPhone)
                 <div>
-                    @Html.DisplayFor(m => m.ContactPhone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.DisplayFor(m => m.User.ContactPhone, new { htmlAttributes = new { @class = "form-control" } })
                     <p>666999333</p>
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.DateOfbirth)
+                @Html.LabelFor(m => m.User.DateOfbirth)
                 <div>
-                    @Html.DisplayFor(m => m.DateOfbirth, "", new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                    @Html.DisplayFor(m => m.User.DateOfbirth, "", new { htmlAttributes = new { @class = "form-control", type = "date" } })
                     <p>01.01.1994</p>
                 </div>
             </div>

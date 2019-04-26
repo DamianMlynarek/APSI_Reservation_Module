@@ -5,7 +5,7 @@ using System.Web;
 
 namespace APSI_ResevationMod.Models
 {
-    public class DetailRoom
+    public class DetailsRoom
     {
         public Room Room { get; set; }
         public List<RoomReservation> RoomReservations { get; set; }
