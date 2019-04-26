@@ -7,5 +7,9 @@ namespace APSI_ResevationMod.Models
 {
     public class RoomReservation
     {
+        public string RoomNumberReserved { get; set; }
+        public string WhoReserves { get; set; }
+        public string DateFrom { get; set; }
+        public string DateTo { get; set; }
     }
 }

@@ -10,6 +10,8 @@ namespace APSI_ResevationMod.Models
         public string Name { get; set; }
         public string Surname { get; set; }
         public List<UserReservation> UserReservation { get; set; }
+        public List<RoomReservation> roomReservations { get; set; }
+        public List<HardwareReservation> hardwareReservations { get; set; }
         public enum EmployeeType { Employee, ProjectOwner, Admin}
         
 

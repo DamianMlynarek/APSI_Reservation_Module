@@ -7,5 +7,6 @@ namespace APSI_ResevationMod.Models
 {
     public class Hardware
     {
+        public string Name { get; set; }
     }
 }
