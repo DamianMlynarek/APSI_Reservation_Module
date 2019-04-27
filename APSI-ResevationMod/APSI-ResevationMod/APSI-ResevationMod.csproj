@@ -166,6 +166,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserList.cs" />
     <Compile Include="Models\DetailsHardware.cs" />
     <Compile Include="Models\DetailsRoom.cs" />
     <Compile Include="Models\DetailsUser.cs" />
@@ -222,6 +223,7 @@
     <Content Include="Views\Home\UnauthorizedRequest.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\AddUserReservation.cshtml" />
+    <Content Include="Views\Home\UserList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
