@@ -7,6 +7,7 @@ namespace APSI_ResevationMod.Models
 {
     public class UserList
     {
-        public List<User> users { get; set; }
+        
+        public List<User> Users { get; set; }
     }
 }

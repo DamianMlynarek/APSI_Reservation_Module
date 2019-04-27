@@ -35,8 +35,18 @@ namespace APSI_ResevationMod.Controllers
 
         public ActionResult UserList()
         {
+            List<User> list = new List<User>();
+            list.Add(new User
+            {
+                Name = "Damian",
+                Surname = "Kappa",
+                DateOfbirth = "01.01.1994",
+                EmployeeID = "123",
+                ContactPhone = "666999333",
 
-            return View();
+            });
+
+            return View(list);
         }
 
         public ActionResult UserDetails()
