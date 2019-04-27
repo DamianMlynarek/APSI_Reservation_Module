@@ -25,8 +25,8 @@ namespace APSI_ResevationMod.Models
         public int EmployeeId { get; set; }
         public bool ProjectOwner { get; set; }
     
-        public virtual EMPLOYEES EMPLOYEES { get; set; }
-        public virtual PROJECTS PROJECTS { get; set; }
+        public virtual EMPLOYEE EMPLOYEE { get; set; }
+        public virtual PROJECT PROJECT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PROJECT_EMPLOYEES_RESERVATION> PROJECT_EMPLOYEES_RESERVATION { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

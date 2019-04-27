@@ -1,7 +1,7 @@
-﻿@model APSI_ResevationMod.Models.DetailsUser
+﻿@model APSI_ResevationMod.Models.EmployeeReservation
 
 @{
-    ViewBag.Title = "User";
+    ViewBag.Title = "Employee";
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
@@ -9,71 +9,61 @@
 
 <div class="row page-box">
     <div class="col-sm-12">
+        <div class="details">
+            @Html.LabelFor(m => m.employee.EmployeeId)
+            <div>
+                @Html.DisplayFor(m => m.employee.EmployeeId, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            @Html.LabelFor(m => m.employee.Surname)
+            <div>
+                @Html.DisplayFor(m => m.employee.Surname, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            @Html.LabelFor(m => m.employee.Forename)
+            <div>
+                @Html.DisplayFor(m => m.employee.Forename, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div>
+            <b>Reservations</b>
+            <table style="width:100%">
+                <tr>
+                    <th>Project</th>
+                    <th>EmployeeID</th>
+                    <th>Date From</th>
+                    <th>Date To</th>
+                    <th>Time Percent Reserved</th>
+                </tr>
+                @foreach(var reservation in Model.reservations)
+                {
+                    <tr>
+                        <td>@reservation.ProjectCode</td>
+                        <td>@reservation.EmployeeId</td>
+                        <td>@reservation.BeginDate.Date</td>
+                        <td>@reservation.EndDate.Date</td>
+                        <td>@reservation.Extent</td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div>
+            <b>Reservations details</b>
+            <table style="width:100%">
+                <tr>
+                    <th>Day</th>
+                    <th>Time Percent Reserved</th>
+                </tr>
+                @foreach(var day in Model.precentOfDaysReserved)
+                {
+                <tr>
+                    <td>@day.Key.Date</td>
+                    <td>@day.Value</td>
+                </tr>
+                }
+            </table>
+        </div>
 
-
-        @using (Html.BeginForm("Apply"))
-        {
-            @Html.AntiForgeryToken()
-            <div class="form-group">
-                @Html.LabelFor(m => m.User.Name)
-                <div>
-                    @Html.DisplayFor(m => m.User.Name, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.User.Surname)
-                <div>
-                    @Html.DisplayFor(m => m.User.Surname, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.User.EmployeeID)
-                <div>
-                    @Html.DisplayFor(m => m.User.EmployeeID, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.User.ContactPhone)
-                <div>
-                    @Html.DisplayFor(m => m.User.ContactPhone, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.User.DateOfbirth)
-                <div>
-                    @Html.DisplayFor(m => m.User.DateOfbirth, "", new { htmlAttributes = new { @class = "form-control", type = "date" } })
-                </div>
-            </div>
-        }
+        </div>
     </div>
-</div>
-
-
-<div class="row page-box">
-
-    <b>Reservation table</b>
-    <table style="width:100%">
-        <tr>
-            <th> Project</th>
-            <th>EmployeeID</th>
-            <th>Date From</th>
-            <th>Date To</th>
-            <th>Time Percent Reserved</th>
-        </tr>
-        @foreach (var userReservation in Model.UserReservation)
-        {
-            <tr>
-                <td>@userReservation.Project</td>
-                <td>@userReservation.EmployeeID</td>
-                <td>@userReservation.DateFrom</td>
-                <td>@userReservation.DateTo</td>
-                <td>@userReservation.TimePercentReserved</td>
-            </tr>
-        }
-    </table>
-</div>
-
-
 
 
 

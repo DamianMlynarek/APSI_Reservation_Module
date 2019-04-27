@@ -4,11 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="efa2993505f9495d8df1c0489a1670da" Name="Diagram1">
-        <EntityTypeShape EntityType="APSITestDbModel.EMPLOYEES" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+      <Diagram DiagramId="2e333df5ccf64aa6a435f7c40db53f5a" Name="Diagram1">
+        <EntityTypeShape EntityType="APSITestDbModel.EMPLOYEE" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="APSITestDbModel.PROJECT_EMPLOYEES" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="APSITestDbModel.PROJECT_EMPLOYEES_RESERVATION" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="APSITestDbModel.PROJECTS" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="APSITestDbModel.PROJECT" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
         <AssociationConnector Association="APSITestDbModel.FK_PROJECT_EMPLOYEES_EMPL" ManuallyRouted="false" />
         <AssociationConnector Association="APSITestDbModel.FK_PROJECT_EMPLOYEES_PROJ" ManuallyRouted="false" />
         <AssociationConnector Association="APSITestDbModel.FK_PROJECT_EMPLOYEES_RESERVATION1" ManuallyRouted="false" />

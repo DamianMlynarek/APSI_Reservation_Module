@@ -170,46 +170,42 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Core_Logic\AuthorizeADAttribute.cs" />
+    <Compile Include="Core_Logic\DateUtils.cs" />
+    <Compile Include="Core_Logic\DbOperations.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Employee.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Employee.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Employee.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Employee.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Employee.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Employee.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\EMPLOYEES.cs">
-      <DependentUpon>Employee.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PROJECTS.cs">
-      <DependentUpon>Employee.tt</DependentUpon>
+    <Compile Include="Models\EMPLOYEE.cs">
+      <DependentUpon>ReservationModule.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PROJECT_EMPLOYEES.cs">
-      <DependentUpon>Employee.tt</DependentUpon>
+      <DependentUpon>ReservationModule.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PROJECT_EMPLOYEES_RESERVATION.cs">
-      <DependentUpon>Employee.tt</DependentUpon>
+      <DependentUpon>ReservationModule.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReservationModule.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReservationModule.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReservationModule.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReservationModule.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReservationModule.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReservationModule.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\UserList.cs" />
-    <Compile Include="Models\DetailsHardware.cs" />
-    <Compile Include="Models\DetailsRoom.cs" />
-    <Compile Include="Models\DetailsUser.cs" />
     <Compile Include="Models\RoomReservation.cs" />
-    <Compile Include="Models\HardwareReservation.cs" />
-    <Compile Include="Models\Hardware.cs" />
-    <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\Project.cs">
+      <DependentUpon>ReservationModule.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Room.cs" />
-    <Compile Include="Models\UserReservation.cs" />
+    <Compile Include="Models\EmployeeReservation.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -221,24 +217,24 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\Employee.Context.tt">
+    <Content Include="Models\ReservationModule.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Employee.edmx</DependentUpon>
-      <LastGenOutput>Employee.Context.cs</LastGenOutput>
+      <DependentUpon>ReservationModule.edmx</DependentUpon>
+      <LastGenOutput>ReservationModule.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\Employee.tt">
+    <Content Include="Models\ReservationModule.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Employee.edmx</DependentUpon>
-      <LastGenOutput>Employee.cs</LastGenOutput>
+      <DependentUpon>ReservationModule.edmx</DependentUpon>
+      <LastGenOutput>ReservationModule.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\Employee.edmx">
+    <EntityDeploy Include="Models\ReservationModule.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Employee.Designer.cs</LastGenOutput>
+      <LastGenOutput>ReservationModule.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\Employee.edmx.diagram">
-      <DependentUpon>Employee.edmx</DependentUpon>
+    <Content Include="Models\ReservationModule.edmx.diagram">
+      <DependentUpon>ReservationModule.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\APSI-ReservationModule - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -275,6 +271,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\AddUserReservation.cshtml" />
     <Content Include="Views\Home\UserList.cshtml" />
+    <Content Include="Views\Home\UserNotExisitngInDB.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

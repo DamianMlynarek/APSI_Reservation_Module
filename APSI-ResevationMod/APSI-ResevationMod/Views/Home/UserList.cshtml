@@ -1,4 +1,4 @@
-﻿@model List<APSI_ResevationMod.Models.User>
+﻿@model List<APSI_ResevationMod.Models.EMPLOYEE>
 
 @{
     ViewBag.Title = "List of Users";
@@ -16,23 +16,18 @@
 <div class="row page-box">
     <table style="width:100%">
         <tr>
-            <th> Name</th>
+            <th>Id</th>
+            <th>Name</th>
             <th>Surname</th>
-            <th>EmployeeID/th>
-            <th>Contact Phone</th>
-            <th>Date Of Birth</th>
         </tr>
         @foreach (var user in Model)
         {
             <tr>
-                <td>@user.Name</td>
+                <td>@Html.ActionLink(user.EmployeeId.ToString(), "UserDetails", "Home",new { id=user.EmployeeId },null)</td>
+                <td>@user.Forename</td>
                 <td>@user.Surname</td>
-                <td>@user.EmployeeID</td>
-                <td>@user.ContactPhone</td>
-                <td>@user.DateOfbirth</td>
             </tr>
         }
         
     </table>
 </div>
-*/
