@@ -40,17 +40,21 @@ namespace APSI_ResevationMod.Controllers
             _employees = dbOperations.GetEmployees();
             return View(_employees);
         }
-        
+
         public ActionResult UserDetails(int? id)
         {
             ViewBag.Message = "User data";
             var employeeReservation = new EmployeeReservation();
+            if(!id.HasValue && !User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("NotAuthenticated");
+            }
             if(User.Identity.IsAuthenticated)
             {
                 //employeeReservation.employee = _employees.FirstOrDefault(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
                 if(employeeReservation.employee == null)
                 {
-                    RedirectToAction("UserNotExisitngInDB");
+                    return RedirectToAction("UserNotExisitngInDB");
                 }
                 id = employeeReservation.employee.EmployeeId;
             }
@@ -82,6 +86,10 @@ namespace APSI_ResevationMod.Controllers
             return View();
         }
         public ActionResult UnauthorizedRequest()
+        {
+            return View();
+        }
+        public ActionResult NotAuthenticated()
         {
             return View();
         }

@@ -272,6 +272,7 @@
     <Content Include="Views\Home\AddUserReservation.cshtml" />
     <Content Include="Views\Home\UserList.cshtml" />
     <Content Include="Views\Home\UserNotExisitngInDB.cshtml" />
+    <Content Include="Views\Home\NotAuthenticated.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
