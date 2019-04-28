@@ -25,9 +25,8 @@ namespace APSI_ResevationMod.Core_Logic
                     }
                     else
                     {
-
+                        days.Add(day, reservation.Extent);
                     }
-                    days.Add(day, reservation.Extent);
                 }
             }
             return days;

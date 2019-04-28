@@ -14,14 +14,17 @@
             <th>Name</th>
             <th>Surname</th>
         </tr>
-        @foreach (var user in Model)
+        @foreach(var user in Model)
         {
-            <tr>
-                <td>@Html.ActionLink(user.EmployeeId.ToString(), "UserDetails", "Home",new { id=user.EmployeeId },null)</td>
-                <td>@user.Forename</td>
-                <td>@user.Surname</td>
-            </tr>
+            if(user.EmployeeType == "Programmer")
+            {
+                <tr>
+                    <td>@Html.ActionLink(user.EmployeeId.ToString(), "UserDetails", "Home", new { id = user.EmployeeId }, null)</td>
+                    <td>@user.Forename</td>
+                    <td>@user.Surname</td>
+                </tr>
+            }
         }
-        
+
     </table>
 </div>

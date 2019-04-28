@@ -178,6 +178,9 @@
     <Compile Include="Models\EMPLOYEE.cs">
       <DependentUpon>ReservationModule.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PROJECT.cs">
+      <DependentUpon>ReservationModule.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PROJECT_EMPLOYEES.cs">
       <DependentUpon>ReservationModule.tt</DependentUpon>
     </Compile>
@@ -199,14 +202,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ReservationModule.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\UserList.cs" />
-    <Compile Include="Models\RoomReservation.cs" />
-    <Compile Include="Models\Project.cs">
-      <DependentUpon>ReservationModule.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Room.cs" />
     <Compile Include="Models\EmployeeReservation.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
