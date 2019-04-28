@@ -72,10 +72,12 @@ namespace APSI_ResevationMod.Controllers
             {
                 if(id.HasValue)
                 {
-                    employeeReservation.employee=_employees.FirstOrDefault(e => e.EmployeeId==id);
+                    employeeReservation.employee = _employees.FirstOrDefault(e => e.EmployeeId == id);
                     employeeReservation.reservations = dbOperations.GetEmployeeReservation(id.Value);
                     employeeReservation.precentOfDaysReserved = DateUtils.CalculateProjectsLoadForEmployee(employeeReservation.reservations);
                 }
+                else
+                    return RedirectToAction("OnlyForProgrammers");
             }
             return View(employeeReservation);
         }
@@ -99,6 +101,10 @@ namespace APSI_ResevationMod.Controllers
             return View();
         }
         public ActionResult NotAuthenticated()
+        {
+            return View();
+        }
+        public ActionResult OnlyForProgrammers()
         {
             return View();
         }
