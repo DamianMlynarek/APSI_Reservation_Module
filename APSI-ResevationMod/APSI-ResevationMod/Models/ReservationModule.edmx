@@ -13,6 +13,7 @@
           <Property Name="Forename" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Surname" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="EmployeeType" Type="nvarchar" MaxLength="100" />
+          <Property Name="AADName" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="PROJECT_EMPLOYEES">
           <Key>
@@ -137,6 +138,7 @@
           <Property Name="Surname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="PROJECT_EMPLOYEES" Relationship="Self.FK_PROJECT_EMPLOYEES_EMPL" FromRole="EMPLOYEES" ToRole="PROJECT_EMPLOYEES" />
           <Property Name="EmployeeType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AADName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PROJECT_EMPLOYEES">
           <Key>
@@ -264,6 +266,7 @@
           <EntitySetMapping Name="EMPLOYEES">
             <EntityTypeMapping TypeName="APSITestDbModel.EMPLOYEE">
               <MappingFragment StoreEntitySet="EMPLOYEES">
+                <ScalarProperty Name="AADName" ColumnName="AADName" />
                 <ScalarProperty Name="EmployeeType" ColumnName="EmployeeType" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="Forename" ColumnName="Forename" />

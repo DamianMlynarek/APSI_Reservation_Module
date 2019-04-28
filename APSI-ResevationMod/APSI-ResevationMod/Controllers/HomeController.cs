@@ -10,11 +10,15 @@ namespace APSI_ResevationMod.Controllers
 {
     public class HomeController : Controller
     {
-        private static List<EMPLOYEE> _employees;
+        private static EMPLOYEE currentEmployee = new EMPLOYEE();
+
+        private static List<EMPLOYEE> _employees = new List<EMPLOYEE>();
         private static DbOperations dbOperations = new DbOperations();
         public ActionResult Index()
         {
-            return View();
+            if(_employees.Count == 0)
+                _employees = dbOperations.GetEmployees();
+            return View(currentEmployee);
         }
 
         public ActionResult About()
@@ -33,39 +37,35 @@ namespace APSI_ResevationMod.Controllers
         {
             return View();
         }
-
+        [AuthorizeAD(GroupId = "aa1dd232-8a6a-446b-9aec-63084370037f")]
         public ActionResult UserList()
         {
-            _employees = new List<EMPLOYEE>();
             _employees = dbOperations.GetEmployees();
             return View(_employees);
         }
-
+        //[AuthorizeAD(GroupId = "fe52b7e1-0d05-425c-a6d4-1b9d9d0e6616")]
         public ActionResult UserDetails(int? id)
         {
             ViewBag.Message = "User data";
             var employeeReservation = new EmployeeReservation();
-            if(!id.HasValue && !User.Identity.IsAuthenticated)
-            {
+            if(User.Identity.IsAuthenticated == false)
                 return RedirectToAction("NotAuthenticated");
-            }
-            if(User.Identity.IsAuthenticated)
+            var employee = _employees.FirstOrDefault(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
+            if(employee !=null && employee.EmployeeType=="Programmer")
             {
-                //employeeReservation.employee = _employees.FirstOrDefault(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
-                if(employeeReservation.employee == null)
-                {
-                    return RedirectToAction("UserNotExisitngInDB");
-                }
+                employeeReservation.employee = employee;
                 id = employeeReservation.employee.EmployeeId;
+                employeeReservation.reservations = dbOperations.GetEmployeeReservation(id.Value);
+                employeeReservation.precentOfDaysReserved = DateUtils.CalculateProjectsLoadForEmployee(employeeReservation.reservations);
             }
             else
             {
-                employeeReservation.employee = _employees.FirstOrDefault(e => e.EmployeeId == id);
-            }
-            if(id.HasValue)
-            {
-                employeeReservation.reservations = dbOperations.GetEmployeeReservation(id.Value);
-                employeeReservation.precentOfDaysReserved = DateUtils.CalculateProjectsLoadForEmployee(employeeReservation.reservations);
+                if(id.HasValue)
+                {
+                    employeeReservation.employee=_employees.FirstOrDefault(e => e.EmployeeId==id);
+                    employeeReservation.reservations = dbOperations.GetEmployeeReservation(id.Value);
+                    employeeReservation.precentOfDaysReserved = DateUtils.CalculateProjectsLoadForEmployee(employeeReservation.reservations);
+                }
             }
             return View(employeeReservation);
 

@@ -24,6 +24,7 @@ namespace APSI_ResevationMod.Models
         public string Forename { get; set; }
         public string Surname { get; set; }
         public string EmployeeType { get; set; }
+        public string AADName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PROJECT_EMPLOYEES> PROJECT_EMPLOYEES { get; set; }
