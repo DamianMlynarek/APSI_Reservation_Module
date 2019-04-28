@@ -37,10 +37,18 @@ namespace APSI_ResevationMod.Controllers
         {
             return View();
         }
-        [AuthorizeAD(GroupId = "aa1dd232-8a6a-446b-9aec-63084370037f")]
+
         public ActionResult UserList()
         {
-            _employees = dbOperations.GetEmployees();
+            if(User.Identity.IsAuthenticated == false)
+                return RedirectToAction("NotAuthenticated");
+            var employee = _employees.FirstOrDefault(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
+            if(employee == null)
+                return RedirectToAction("UserNotExisitngInDB");
+            if(employee != null && employee.EmployeeType == "Owner")
+                _employees = dbOperations.GetEmployees();
+            else
+                return RedirectToAction("UnauthorizedRequest");
             return View(_employees);
         }
         //[AuthorizeAD(GroupId = "fe52b7e1-0d05-425c-a6d4-1b9d9d0e6616")]
@@ -70,7 +78,6 @@ namespace APSI_ResevationMod.Controllers
                 }
             }
             return View(employeeReservation);
-
         }
 
         public ActionResult Hardware()
