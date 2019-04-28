@@ -51,10 +51,12 @@ namespace APSI_ResevationMod.Controllers
             if(User.Identity.IsAuthenticated == false)
                 return RedirectToAction("NotAuthenticated");
             var employee = _employees.FirstOrDefault(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
+            if(employee == null)
+                return RedirectToAction("UserNotExisitngInDB");
             if(employee !=null && employee.EmployeeType=="Programmer")
             {
                 employeeReservation.employee = employee;
-                id = employeeReservation.employee.EmployeeId;
+                id = employee.EmployeeId;
                 employeeReservation.reservations = dbOperations.GetEmployeeReservation(id.Value);
                 employeeReservation.precentOfDaysReserved = DateUtils.CalculateProjectsLoadForEmployee(employeeReservation.reservations);
             }
