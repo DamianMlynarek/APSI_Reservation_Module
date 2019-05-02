@@ -175,6 +175,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Resource.cs" />
     <Compile Include="Models\EMPLOYEE.cs">
       <DependentUpon>ReservationModule.tt</DependentUpon>
     </Compile>
@@ -270,6 +271,8 @@
     <Content Include="Views\Home\UserNotExisitngInDB.cshtml" />
     <Content Include="Views\Home\NotAuthenticated.cshtml" />
     <Content Include="Views\Home\OnlyForProgrammers.cshtml" />
+    <Content Include="Views\Home\ResourceList.cshtml" />
+    <Content Include="Views\Home\Reserve.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

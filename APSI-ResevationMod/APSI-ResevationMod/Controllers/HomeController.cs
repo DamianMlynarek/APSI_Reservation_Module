@@ -108,5 +108,43 @@ namespace APSI_ResevationMod.Controllers
         {
             return View();
         }
+
+        public ActionResult ResourceData()
+        {
+            return View();
+
+        }
+        public ActionResult ResourceList()
+        {
+            var resources = new List<Resource>();
+            resources.Add(new Resource { ID = 1, name = "Printer" });
+            resources.Add(new Resource { ID = 2, name = "Pen" });
+            resources.Add(new Resource { ID = 3, name = "Table" });
+            resources.Add(new Resource { ID = 4, name = "Desk" });
+            resources.Add(new Resource { ID = 5, name = "Mouse" });
+            resources.Add(new Resource { ID = 6, name = "Keyboard" });
+            resources.Add(new Resource { ID = 7, name = "Mobile touchpad" });
+
+            return View(resources);
+        }
+
+        IList<Resource> resources = new List<Resource>() {
+            new Resource { ID = 1, name = "Printer"  },
+            new Resource { ID = 2, name = "Pen" },
+            new Resource { ID = 3, name = "Table" },
+            new Resource { ID = 4, name = "Desk" },
+            new Resource { ID = 5, name = "Mouse" },
+            new Resource { ID = 6, name = "Keyboard" },
+            new Resource { ID = 7, name = "Mobile touchpad" }
+            };
+
+        public ActionResult Reserve(int Id)
+        {
+            //Get the student from studentList sample collection for demo purpose.
+            //Get the student from the database in the real application
+            var std = resources.Where(s => s.ID == Id).FirstOrDefault();
+
+            return View(std);
+        }
     }
 }

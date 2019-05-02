@@ -29,5 +29,7 @@ namespace APSI_ResevationMod.Models
         public virtual DbSet<PROJECT_EMPLOYEES> PROJECT_EMPLOYEES { get; set; }
         public virtual DbSet<PROJECT_EMPLOYEES_RESERVATION> PROJECT_EMPLOYEES_RESERVATION { get; set; }
         public virtual DbSet<PROJECT> PROJECTS { get; set; }
+
+        public System.Data.Entity.DbSet<APSI_ResevationMod.Models.Resource> Resources { get; set; }
     }
 }
