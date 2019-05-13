@@ -13,6 +13,7 @@ namespace APSI_ResevationMod.Controllers
         private static EMPLOYEE currentEmployee = new EMPLOYEE();
 
         private static List<EMPLOYEE> _employees = new List<EMPLOYEE>();
+        private static List<PROJECT> _projects = new List<PROJECT>();
         private static DbOperations dbOperations = new DbOperations();
         public ActionResult Index()
         {
@@ -38,9 +39,15 @@ namespace APSI_ResevationMod.Controllers
             return View();
         }
 
+        public ActionResult Reservations()
+        {
+            
+            return View();
+        }
+         
         public ActionResult UserList()
         {
-            if(User.Identity.IsAuthenticated == false)
+            /*if(User.Identity.IsAuthenticated == false)
                 return RedirectToAction("NotAuthenticated");
             var employee = _employees.FirstOrDefault(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
             if(employee == null)
@@ -48,7 +55,8 @@ namespace APSI_ResevationMod.Controllers
             if(employee != null && employee.EmployeeType == "Owner")
                 _employees = dbOperations.GetEmployees();
             else
-                return RedirectToAction("UnauthorizedRequest");
+                return RedirectToAction("UnauthorizedRequest");*/
+            _employees = dbOperations.GetEmployees();
             return View(_employees);
         }
         //[AuthorizeAD(GroupId = "fe52b7e1-0d05-425c-a6d4-1b9d9d0e6616")]
@@ -146,5 +154,22 @@ namespace APSI_ResevationMod.Controllers
 
             return View(std);
         }
+
+        public ActionResult ProjectList()
+        {
+
+            _projects = dbOperations.GetProjects();
+            return View(_projects);
+        }
+
+        public ActionResult CreateProject()
+        {
+            var model = new PROJECT
+            {
+                Name = "Kappa"
+            };
+            return View();
+        }
+        
     }
 }

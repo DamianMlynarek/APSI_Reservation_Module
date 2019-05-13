@@ -17,6 +17,15 @@ namespace APSI_ResevationMod.Core_Logic
             }
             return employees;
         }
+        public List<PROJECT> GetProjects()
+        {
+            List<PROJECT> projects = new List<PROJECT>();
+            using (var context = new APSIDbEntities())
+            {
+                projects = context.PROJECTS.ToList<PROJECT>();
+            }
+            return projects;
+        }
         public List<PROJECT_EMPLOYEES> GetEmployeeProjects(int EmployeeId)
         {
             List<PROJECT_EMPLOYEES> projects = new List<PROJECT_EMPLOYEES>();

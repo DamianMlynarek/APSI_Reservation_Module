@@ -6,6 +6,7 @@
 }
 
 <h2>ResourceList</h2>
+<h2>@DateTime.Now.ToShortDateString()</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -24,7 +25,8 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.name)
@@ -36,9 +38,12 @@
             @Html.DisplayFor(modelItem => item.store)
         </td>
         <td>
-            @Html.ActionLink("Reserve", "Reserve", new { id=item.ID }) 
+            @Html.ActionLink("Reserve", "Reserve", new { id = item.ID })
+        </td>
+        <td>
+            @Html.ActionLink("Details", "ResourceDetails", new { id = item.ID })
         </td>
     </tr>
-}
+    }
 
 </table>
