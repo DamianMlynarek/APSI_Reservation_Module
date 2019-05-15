@@ -44,5 +44,13 @@ namespace APSI_ResevationMod.Core_Logic
             }
             return reservations;
         }
+        public static void AddProjectToDB(PROJECT model)
+        {
+            using (var context = new Contextt())
+            {
+                context.ProjectContext.Add(model);
+                context.SaveChanges();
+            };
+        }
     }
 }

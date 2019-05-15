@@ -1,0 +1,13 @@
+﻿@model APSI_ResevationMod.Models.PROJECT_EMPLOYEES_RESERVATION
+@{
+    ViewBag.Title = "Employee Reservation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Employee Reservation</h2>
+<h2>@DateTime.Now.ToShortDateString()</h2>
+
+
+<div>
+    @Html.ActionLink("Back to List", "ResourceList")
+</div>

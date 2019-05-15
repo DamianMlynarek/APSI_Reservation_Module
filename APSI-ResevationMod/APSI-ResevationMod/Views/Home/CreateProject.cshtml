@@ -5,13 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>CreateProject</h2>
+<h2>Create New Project</h2>
 
 
-@using (Html.BeginForm("CreateProject"))
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-
+    
     <div class="form-horizontal">
         <h4>PROJECT</h4>
         <hr />

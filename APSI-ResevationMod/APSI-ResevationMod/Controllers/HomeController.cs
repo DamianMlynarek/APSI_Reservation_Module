@@ -164,12 +164,27 @@ namespace APSI_ResevationMod.Controllers
 
         public ActionResult CreateProject()
         {
-            var model = new PROJECT
+            var model = new PROJECT();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult CreateProject(PROJECT model)
+        {
+            if (!ModelState.IsValid)
             {
-                Name = "Kappa"
-            };
+                return View(model);
+            }
+            
+            DbOperations.AddProjectToDB(model);
+            return RedirectToAction("Index");
+        }
+
+
+        public ActionResult EmployeeReservation()
+        {
+            
             return View();
         }
-        
     }
 }

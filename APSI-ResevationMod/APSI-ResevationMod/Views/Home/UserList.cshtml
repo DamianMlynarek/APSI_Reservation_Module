@@ -21,10 +21,13 @@
             if(user.EmployeeType == "Programmer")
             {
         <tr>
-            <td>@Html.ActionLink(user.EmployeeId.ToString(), "UserDetails", "Home", new { id = user.EmployeeId }, null)</td>
+            <td>@user.EmployeeId </td>
             <td>@user.Forename</td>
             <td>@user.Surname</td>
-            
+            <td> </td>
+            <td>>@Html.ActionLink("Reserve", "EmployeeReservation", "Home", new { id = user.EmployeeId }, null) </td>
+            <td>@Html.ActionLink("Details", "UserDetails", "Home", new { id = user.EmployeeId }, null)</td>
+
         </tr>
             }
         }

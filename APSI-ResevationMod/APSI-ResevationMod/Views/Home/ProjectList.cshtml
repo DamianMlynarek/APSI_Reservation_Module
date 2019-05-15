@@ -35,10 +35,10 @@
             @Html.DisplayFor(modelItem => item.ProjectCode)
         </td>
         <td>
-            @Html.ActionLink("Add Employees for project", "AddEmployeeForProject", new { id = item.ProjectCode })
+            @Html.ActionLink("Add Employees for project", "UserList", new { id = item.ProjectCode })
         </td>
         <td>
-            @Html.ActionLink("Add Resources for project", "AddResourceForProject", new { id = item.ProjectCode })
+            @Html.ActionLink("Add Resources for project", "ResourceList", new { id = item.ProjectCode })
         </td>
         <td>
             @Html.ActionLink("Details", "ResourceDetails", new { id = item.ProjectCode })
