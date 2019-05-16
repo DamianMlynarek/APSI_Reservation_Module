@@ -7,7 +7,7 @@ namespace APSI_ResevationMod.Models
 {
     public class ProjectCreateView
     {
-        public PROJECT Project { get; set; }
+        public IEnumerable<PROJECT> Projects { get; set; }
 
     }
 }

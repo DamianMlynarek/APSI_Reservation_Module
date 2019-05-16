@@ -52,5 +52,13 @@ namespace APSI_ResevationMod.Core_Logic
                 context.SaveChanges();
             };
         }
+        public static void AddEmployeeReservationToDB(PROJECT_EMPLOYEES_RESERVATION model)
+        {
+            using (var context = new Contextt())
+            {
+                context.ProjectEmployeeReservationContext.Add(model);
+                context.SaveChanges();
+            };
+        }
     }
 }

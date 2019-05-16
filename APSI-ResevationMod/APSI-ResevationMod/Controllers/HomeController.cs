@@ -15,6 +15,8 @@ namespace APSI_ResevationMod.Controllers
         private static List<EMPLOYEE> _employees = new List<EMPLOYEE>();
         private static List<PROJECT> _projects = new List<PROJECT>();
         private static DbOperations dbOperations = new DbOperations();
+        private static List<string> ProjectCodes = new List<string>();
+        private static PROJECT_EMPLOYEES_RESERVATION _reservation= new PROJECT_EMPLOYEES_RESERVATION();
         public ActionResult Index()
         {
             if(_employees.Count == 0)
@@ -57,6 +59,7 @@ namespace APSI_ResevationMod.Controllers
             else
                 return RedirectToAction("UnauthorizedRequest");*/
             _employees = dbOperations.GetEmployees();
+
             return View(_employees);
         }
         //[AuthorizeAD(GroupId = "fe52b7e1-0d05-425c-a6d4-1b9d9d0e6616")]
@@ -64,7 +67,7 @@ namespace APSI_ResevationMod.Controllers
         {
             ViewBag.Message = "User data";
             var employeeReservation = new EmployeeReservation();
-            if(User.Identity.IsAuthenticated == false)
+            /*if(User.Identity.IsAuthenticated == false)
                 return RedirectToAction("NotAuthenticated");
             var employee = _employees.FirstOrDefault(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
             if(employee == null)
@@ -87,6 +90,11 @@ namespace APSI_ResevationMod.Controllers
                 else
                     return RedirectToAction("OnlyForProgrammers");
             }
+            */
+            employeeReservation.employee = _employees.FirstOrDefault(e => e.EmployeeId == id);
+            employeeReservation.reservations = dbOperations.GetEmployeeReservation(id.Value);
+            employeeReservation.precentOfDaysReserved = DateUtils.CalculateProjectsLoadForEmployee(employeeReservation.reservations);
+
             return View(employeeReservation);
         }
 
@@ -177,14 +185,36 @@ namespace APSI_ResevationMod.Controllers
             }
             
             DbOperations.AddProjectToDB(model);
-            return RedirectToAction("Index");
+            return RedirectToAction("ProjectList");
         }
 
 
-        public ActionResult EmployeeReservation()
+        public ActionResult EmployeeReservation(int? id)
         {
+            var reservation = new EmployeeReservation();
             
-            return View();
+            _projects = dbOperations.GetProjects();
+            reservation.projects = _projects;
+            reservation.employee= _employees.FirstOrDefault(e => e.EmployeeId == id);
+            return View(reservation);
+        }
+
+        [HttpPost]
+        public ActionResult EmployeeReservation(EmployeeReservation reservation)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(reservation);
+            }
+            var model = new PROJECT_EMPLOYEES_RESERVATION();
+            
+            model.EmployeeId = reservation.employee.EmployeeId;
+            model.BeginDate = reservation.reservation.BeginDate;
+            model.EndDate = reservation.reservation.EndDate;
+            model.Extent = reservation.reservation.Extent;
+            model.ProjectCode = reservation.reservation.ProjectCode;
+            DbOperations.AddEmployeeReservationToDB(model);
+            return RedirectToAction("UserList");
         }
     }
 }

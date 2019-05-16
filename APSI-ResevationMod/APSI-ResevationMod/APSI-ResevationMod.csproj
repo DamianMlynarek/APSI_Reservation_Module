@@ -276,8 +276,8 @@
     <Content Include="Views\Home\ResourceList.cshtml" />
     <Content Include="Views\Home\ResourceReservation.cshtml" />
     <Content Include="Views\Home\ProjectList.cshtml" />
-    <Content Include="Views\Home\EmployeeReservation.cshtml" />
     <Content Include="Views\Home\CreateProject.cshtml" />
+    <Content Include="Views\Home\EmployeeReservation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

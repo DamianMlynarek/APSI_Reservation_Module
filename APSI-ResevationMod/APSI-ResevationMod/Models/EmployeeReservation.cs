@@ -8,9 +8,12 @@ namespace APSI_ResevationMod.Models
 {
     public class EmployeeReservation
     {
-        public EMPLOYEE employee;
-        public List<PROJECT_EMPLOYEES_RESERVATION> reservations;
-        public SortedDictionary<DateTime, int> precentOfDaysReserved;
+        public EMPLOYEE employee { get; set; }
+        public List<PROJECT_EMPLOYEES_RESERVATION> reservations { get; set; }
+        public PROJECT_EMPLOYEES_RESERVATION reservation { get; set; }
+        public IEnumerable<PROJECT> projects { get; set; }
+        //public List<PROJECT> projects { get; set; }
+        public SortedDictionary<DateTime, int> precentOfDaysReserved { get; set; }
     }
     //public enum Weeks
     //{
