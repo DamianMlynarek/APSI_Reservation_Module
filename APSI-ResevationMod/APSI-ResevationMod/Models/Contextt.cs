@@ -8,7 +8,7 @@ namespace APSI_ResevationMod.Models
 {
     public class Contextt: DbContext
     {
-        public Contextt() : base("APSITestDbEntities")
+        public Contextt() : base("APSIDbEntities")
         {
 
         }

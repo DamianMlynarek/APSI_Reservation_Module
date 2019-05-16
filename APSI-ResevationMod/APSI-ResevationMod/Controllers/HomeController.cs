@@ -15,8 +15,9 @@ namespace APSI_ResevationMod.Controllers
         private static List<EMPLOYEE> _employees = new List<EMPLOYEE>();
         private static List<PROJECT> _projects = new List<PROJECT>();
         private static DbOperations dbOperations = new DbOperations();
-        private static List<string> ProjectCodes = new List<string>();
         private static PROJECT_EMPLOYEES_RESERVATION _reservation= new PROJECT_EMPLOYEES_RESERVATION();
+        private static int _employeeId = new int(); 
+
         public ActionResult Index()
         {
             if(_employees.Count == 0)
@@ -189,18 +190,18 @@ namespace APSI_ResevationMod.Controllers
         }
 
 
-        public ActionResult EmployeeReservation(int? id)
+        public ActionResult EmployeeReservation(int id)
         {
-            var reservation = new EmployeeReservation();
-            
-            _projects = dbOperations.GetProjects();
-            reservation.projects = _projects;
-            reservation.employee= _employees.FirstOrDefault(e => e.EmployeeId == id);
+            var reservation = new AddUserResevation();
+            reservation.EmployeeId = new int();
+            reservation.projects = dbOperations.GetProjects();
+            reservation.EmployeeId = id;
+            _employeeId = id;
             return View(reservation);
         }
 
         [HttpPost]
-        public ActionResult EmployeeReservation(EmployeeReservation reservation)
+        public ActionResult EmployeeReservation(AddUserResevation reservation)
         {
             if (!ModelState.IsValid)
             {
@@ -208,11 +209,11 @@ namespace APSI_ResevationMod.Controllers
             }
             var model = new PROJECT_EMPLOYEES_RESERVATION();
             
-            model.EmployeeId = reservation.employee.EmployeeId;
-            model.BeginDate = reservation.reservation.BeginDate;
-            model.EndDate = reservation.reservation.EndDate;
-            model.Extent = reservation.reservation.Extent;
-            model.ProjectCode = reservation.reservation.ProjectCode;
+            model.EmployeeId = _employeeId;
+            model.BeginDate = reservation.BeginDate;
+            model.EndDate = reservation.EndDate;
+            model.Extent = reservation.Extent;
+            model.ProjectCode = reservation.ProjectCode;
             DbOperations.AddEmployeeReservationToDB(model);
             return RedirectToAction("UserList");
         }
