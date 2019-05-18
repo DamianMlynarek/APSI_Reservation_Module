@@ -60,5 +60,13 @@ namespace APSI_ResevationMod.Core_Logic
                 context.SaveChanges();
             };
         }
+        public static void AddProjectEmployeeToDB(PROJECT_EMPLOYEES model)
+        {
+            using (var context = new Contextt())
+            {
+                context.ProjectEmployeeContext.Add(model);
+                context.SaveChanges();
+            };
+        }
     }
 }

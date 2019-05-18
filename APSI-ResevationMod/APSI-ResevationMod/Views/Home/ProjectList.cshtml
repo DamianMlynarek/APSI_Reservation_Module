@@ -36,13 +36,14 @@
         </td>
         <td>
             @Html.ActionLink("Add Employees for project", "UserList", new { id = item.ProjectCode })
-        </td>
+        </td>z
         <td>
             @Html.ActionLink("Add Resources for project", "ResourceList", new { id = item.ProjectCode })
         </td>
         <td>
             @Html.ActionLink("Details", "ResourceDetails", new { id = item.ProjectCode })
         </td>
+       @*@Html.ActionLink("Add Employees for project", "UserList", new { id = item.ProjectCode })*@
     </tr>
     }
 

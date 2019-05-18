@@ -16,7 +16,9 @@ namespace APSI_ResevationMod.Controllers
         private static List<PROJECT> _projects = new List<PROJECT>();
         private static DbOperations dbOperations = new DbOperations();
         private static PROJECT_EMPLOYEES_RESERVATION _reservation= new PROJECT_EMPLOYEES_RESERVATION();
-        private static int _employeeId = new int(); 
+        private static int _employeeId = new int();
+        private static int _projectOwnerId = 3;
+        
 
         public ActionResult Index()
         {
@@ -98,21 +100,12 @@ namespace APSI_ResevationMod.Controllers
 
             return View(employeeReservation);
         }
-
-        public ActionResult Hardware()
-        {
-            return View();
-        }
-
+        
         public ActionResult UserNotExisitngInDB()
         {
             return View();
         }
-
-        public ActionResult Room()
-        {
-            return View();
-        }
+        
         public ActionResult UnauthorizedRequest()
         {
             return View();
@@ -196,6 +189,7 @@ namespace APSI_ResevationMod.Controllers
             reservation.EmployeeId = new int();
             reservation.projects = dbOperations.GetProjects();
             reservation.EmployeeId = id;
+            _projectOwnerId = id;
             _employeeId = id;
             return View(reservation);
         }
@@ -207,15 +201,39 @@ namespace APSI_ResevationMod.Controllers
             {
                 return View(reservation);
             }
+            var employeeProjects = dbOperations.GetEmployeeProjects(_employeeId);
+            var x = employeeProjects.Where(s => s.ProjectCode == reservation.ProjectCode).ToList();
+            if (x.Count()>0 )
+            {
+                return RedirectToAction("EmployeeIsReserved");
+            }
+           
             var model = new PROJECT_EMPLOYEES_RESERVATION();
+            var modelEmployee = new PROJECT_EMPLOYEES();
+
+            modelEmployee.EmployeeId = _projectOwnerId;
+            modelEmployee.ProjectCode = reservation.ProjectCode;
+            modelEmployee.ProjectOwner = true;
+            DbOperations.AddProjectEmployeeToDB(modelEmployee);
+            
             
             model.EmployeeId = _employeeId;
+            model.ProjectOwnerId = _projectOwnerId;
             model.BeginDate = reservation.BeginDate;
             model.EndDate = reservation.EndDate;
             model.Extent = reservation.Extent;
             model.ProjectCode = reservation.ProjectCode;
             DbOperations.AddEmployeeReservationToDB(model);
             return RedirectToAction("UserList");
+        }
+        public int GetLoggedUserId()
+        {
+            return (_projectOwnerId);
+        }
+
+        public ActionResult EmployeeIsReserved()
+        {
+            return View();
         }
     }
 }
