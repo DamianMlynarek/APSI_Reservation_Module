@@ -195,6 +195,13 @@ namespace APSI_ResevationMod.Controllers
             }
             
             DbOperations.AddProjectToDB(model);
+
+            var model2 = new PROJECT_EMPLOYEES();
+            model2.ProjectCode = model.ProjectCode;
+            model2.ProjectOwner = true;
+            model2.EmployeeId = _loggedUserId;
+            DbOperations.AddProjectEmployeeToDB(model2);
+
             return RedirectToAction("ProjectList");
         }
 
