@@ -23,7 +23,11 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    @if (User.IsInRole("Programmer"))
+                    {
 
+                    }
+                    
                         <li>@Html.ActionLink("Employees List", "UserList", "Home")</li>
                         <li>@Html.ActionLink("Resource List","ResourceList","Home")</li>
 

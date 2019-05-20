@@ -16,8 +16,8 @@ namespace APSI_ResevationMod.Controllers
         private static List<PROJECT> _projects = new List<PROJECT>();
         private static DbOperations dbOperations = new DbOperations();
         private static PROJECT_EMPLOYEES_RESERVATION _reservation= new PROJECT_EMPLOYEES_RESERVATION();
-        private static int _employeeId = new int();
-        private static int _projectOwnerId = 3;
+        private static int _employeeId;
+        private static int _loggedUserId;
         
 
         public ActionResult Index()
@@ -50,8 +50,12 @@ namespace APSI_ResevationMod.Controllers
             return View();
         }
          
-        public ActionResult UserList()
+        public ActionResult UserList(int? id)
         {
+            if (id.HasValue)
+            {
+                _employeeId = id.Value;
+            }
             /*if(User.Identity.IsAuthenticated == false)
                 return RedirectToAction("NotAuthenticated");
             var employee = _employees.FirstOrDefault(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
@@ -65,9 +69,11 @@ namespace APSI_ResevationMod.Controllers
 
             return View(_employees);
         }
+        
         //[AuthorizeAD(GroupId = "fe52b7e1-0d05-425c-a6d4-1b9d9d0e6616")]
         public ActionResult UserDetails(int? id)
         {
+            
             ViewBag.Message = "User data";
             var employeeReservation = new EmployeeReservation();
             /*if(User.Identity.IsAuthenticated == false)
@@ -86,6 +92,7 @@ namespace APSI_ResevationMod.Controllers
             {
                 if(id.HasValue)
                 {
+                
                     employeeReservation.employee = _employees.FirstOrDefault(e => e.EmployeeId == id);
                     employeeReservation.reservations = dbOperations.GetEmployeeReservation(id.Value);
                     employeeReservation.precentOfDaysReserved = DateUtils.CalculateProjectsLoadForEmployee(employeeReservation.reservations);
@@ -161,7 +168,10 @@ namespace APSI_ResevationMod.Controllers
         {
 
             _projects = dbOperations.GetProjects();
-            return View(_projects);
+            _loggedUserId = GetLoggedUserId();
+            //projects for owner only
+            return View(_projects);//okrojona lista projektow
+            
         }
 
         public ActionResult CreateProject()
@@ -189,7 +199,7 @@ namespace APSI_ResevationMod.Controllers
             reservation.EmployeeId = new int();
             reservation.projects = dbOperations.GetProjects();
             reservation.EmployeeId = id;
-            _projectOwnerId = id;
+            _loggedUserId = id;
             _employeeId = id;
             return View(reservation);
         }
@@ -211,14 +221,14 @@ namespace APSI_ResevationMod.Controllers
             var model = new PROJECT_EMPLOYEES_RESERVATION();
             var modelEmployee = new PROJECT_EMPLOYEES();
 
-            modelEmployee.EmployeeId = _projectOwnerId;
+            modelEmployee.EmployeeId = _loggedUserId;
             modelEmployee.ProjectCode = reservation.ProjectCode;
             modelEmployee.ProjectOwner = true;
             DbOperations.AddProjectEmployeeToDB(modelEmployee);
             
             
             model.EmployeeId = _employeeId;
-            model.ProjectOwnerId = _projectOwnerId;
+            model.ProjectOwnerId = _loggedUserId;
             model.BeginDate = reservation.BeginDate;
             model.EndDate = reservation.EndDate;
             model.Extent = reservation.Extent;
@@ -228,7 +238,8 @@ namespace APSI_ResevationMod.Controllers
         }
         public int GetLoggedUserId()
         {
-            return (_projectOwnerId);
+            return 3;
+           // return (_projectOwnerId);
         }
 
         public ActionResult EmployeeIsReserved()

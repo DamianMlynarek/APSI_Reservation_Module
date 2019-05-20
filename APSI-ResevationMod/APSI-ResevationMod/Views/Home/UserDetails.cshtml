@@ -5,9 +5,10 @@
 }
 <h2>@ViewBag.Title</h2>
 
-
+<td>>@Html.ActionLink("Reserve", "EmployeeReservation", "Home", new { id = Model.employee.EmployeeId}, null) </td>
 <div class="row page-box">
     <div class="col-sm-12">
+
         <div class="details">
             @Html.LabelFor(m => m.employee.EmployeeId)
             <div>
@@ -32,7 +33,7 @@
                     <th>Date To</th>
                     <th>Time Percent Reserved</th>
                 </tr>
-                @foreach(var reservation in Model.reservations)
+                @foreach (var reservation in Model.reservations)
                 {
                     <tr>
                         <td>@reservation.ProjectCode</td>
@@ -51,18 +52,18 @@
                     <th>Day</th>
                     <th>Time Percent Reserved</th>
                 </tr>
-                @foreach(var day in Model.precentOfDaysReserved)
+                @foreach (var day in Model.precentOfDaysReserved)
                 {
-                <tr>
-                    <td>@day.Key.ToShortDateString()</td>
-                    <td>@day.Value</td>
-                </tr>
+                    <tr>
+                        <td>@day.Key.ToShortDateString()</td>
+                        <td>@day.Value</td>
+                    </tr>
                 }
             </table>
         </div>
 
-        </div>
     </div>
+</div>
 
 
 
