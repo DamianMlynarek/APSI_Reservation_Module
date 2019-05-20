@@ -10,15 +10,16 @@ namespace APSI_ResevationMod.Controllers
 {
     public class HomeController : Controller
     {
-        private static EMPLOYEE currentEmployee = new EMPLOYEE();
+        private static EMPLOYEES currentEmployee = new EMPLOYEES();
 
-        private static List<EMPLOYEE> _employees = new List<EMPLOYEE>();
-        private static List<PROJECT> _projects = new List<PROJECT>();
+        private static List<EMPLOYEES> _employees = new List<EMPLOYEES>();
+        private static List<PROJECTS> _projects = new List<PROJECTS>();
         private static List<PROJECT_EMPLOYEES> _projectsEmployees = new List<PROJECT_EMPLOYEES>();
         private static DbOperations dbOperations = new DbOperations();
         private static PROJECT_EMPLOYEES_RESERVATION _reservation= new PROJECT_EMPLOYEES_RESERVATION();
         private static int _employeeId;
         private static int _loggedUserId;
+        private static List<RESOURCES> _resources = new List<RESOURCES>();
         
 
         public ActionResult Index()
@@ -139,6 +140,7 @@ namespace APSI_ResevationMod.Controllers
         }
         public ActionResult ResourceList()
         {
+            _resources = dbOperations.GetResources();
             var resources = new List<Resource>();
             resources.Add(new Resource { ID = 1, name = "Printer" });
             resources.Add(new Resource { ID = 2, name = "Pen" });
@@ -148,26 +150,43 @@ namespace APSI_ResevationMod.Controllers
             resources.Add(new Resource { ID = 6, name = "Keyboard" });
             resources.Add(new Resource { ID = 7, name = "Mobile touchpad" });
 
-            return View(resources);
+            return View(_resources);
         }
 
-        IList<Resource> resources = new List<Resource>() {
-            new Resource { ID = 1, name = "Printer"  },
-            new Resource { ID = 2, name = "Pen" },
-            new Resource { ID = 3, name = "Table" },
-            new Resource { ID = 4, name = "Desk" },
-            new Resource { ID = 5, name = "Mouse" },
-            new Resource { ID = 6, name = "Keyboard" },
-            new Resource { ID = 7, name = "Mobile touchpad" }
-            };
-
-        public ActionResult Reserve(int Id)
+        public ActionResult CreateResource()
         {
-            //Get the student from studentList sample collection for demo purpose.
-            //Get the student from the database in the real application
-            var std = resources.Where(s => s.ID == Id).FirstOrDefault();
+            var model = new RESOURCES();
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult CreateResource(RESOURCES model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
-            return View(std);
+            DbOperations.AddResourceToDB(model);
+            return RedirectToAction("ProjectList");
+        }
+       public ActionResult ResourceReservation(int id)
+        {
+            var model = new RESOURCES_RESERVATIONS();
+            model.ResourceId = id;
+            model.EmployeeId = GetLoggedUserId();
+            
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult ResourceReservation (RESOURCES_RESERVATIONS model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            DbOperations.AddResourceReservationToDB(model);
+            return RedirectToAction("ResourceList");
         }
 
         public ActionResult ProjectList()
@@ -175,7 +194,7 @@ namespace APSI_ResevationMod.Controllers
             _loggedUserId = GetLoggedUserId();
             _projects = dbOperations.GetProjects();
             _projectsEmployees = dbOperations.GetEmployeeProjects(_loggedUserId);
-            var POProjects = new List<PROJECT>();
+            var POProjects = new List<PROJECTS>();
             foreach (var projectEmp in _projectsEmployees)
             {
                 POProjects.Add(_projects.Where(s => s.ProjectCode == projectEmp.ProjectCode).FirstOrDefault());
@@ -187,12 +206,12 @@ namespace APSI_ResevationMod.Controllers
 
         public ActionResult CreateProject()
         {
-            var model = new PROJECT();
+            var model = new PROJECTS();
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult CreateProject(PROJECT model)
+        public ActionResult CreateProject(PROJECTS model)
         {
             if (!ModelState.IsValid)
             {
@@ -257,7 +276,7 @@ namespace APSI_ResevationMod.Controllers
         public ActionResult ProjectDetails(string ProjectCode)
         {
             var PDetails = new ProjectDetails();
-            var EmployeesOfProject = new List<EMPLOYEE>();
+            var EmployeesOfProject = new List<EMPLOYEES>();
             _employees = dbOperations.GetEmployees();
              var projectEmployees = dbOperations.GetEmployeeProjectsByPC(ProjectCode);
             

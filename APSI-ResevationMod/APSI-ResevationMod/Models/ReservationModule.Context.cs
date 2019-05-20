@@ -13,10 +13,10 @@ namespace APSI_ResevationMod.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class APSIDbEntities : DbContext
+    public partial class APSITestDbEntities1 : DbContext
     {
-        public APSIDbEntities()
-            : base("name=APSIDbEntities")
+        public APSITestDbEntities1()
+            : base("name=APSITestDbEntities1")
         {
         }
     
@@ -25,11 +25,13 @@ namespace APSI_ResevationMod.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<EMPLOYEE> EMPLOYEES { get; set; }
+        public virtual DbSet<EMPLOYEES> EMPLOYEES { get; set; }
         public virtual DbSet<PROJECT_EMPLOYEES> PROJECT_EMPLOYEES { get; set; }
         public virtual DbSet<PROJECT_EMPLOYEES_RESERVATION> PROJECT_EMPLOYEES_RESERVATION { get; set; }
-        public virtual DbSet<PROJECT> PROJECTS { get; set; }
-
-        public System.Data.Entity.DbSet<APSI_ResevationMod.Models.Resource> Resources { get; set; }
+        public virtual DbSet<PROJECTS> PROJECTS { get; set; }
+        public virtual DbSet<RESOURCES> RESOURCES { get; set; }
+        public virtual DbSet<RESOURCES_RESERVATIONS> RESOURCES_RESERVATIONS { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<TestUser> TestUser { get; set; }
     }
 }

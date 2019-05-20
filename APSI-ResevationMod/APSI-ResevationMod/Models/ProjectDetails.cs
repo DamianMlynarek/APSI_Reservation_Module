@@ -8,7 +8,7 @@ namespace APSI_ResevationMod.Models
     public class ProjectDetails
     {
         public List<PROJECT_EMPLOYEES_RESERVATION> reservations { get; set; }
-        public List<EMPLOYEE> employees { get; set; }
-        public PROJECT project { get; set; }
+        public List<EMPLOYEES> employees { get; set; }
+        public PROJECTS project { get; set; }
     }
 }

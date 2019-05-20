@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="APSITestDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="APSITestDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="EMPLOYEES">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -44,6 +44,44 @@
           </Key>
           <Property Name="ProjectCode" Type="nchar" MaxLength="5" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RESOURCES">
+          <Key>
+            <PropertyRef Name="ResourceId" />
+          </Key>
+          <Property Name="ResourceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="RESOURCES_RESERVATIONS">
+          <Key>
+            <PropertyRef Name="ResourceId" />
+            <PropertyRef Name="ResourceResId" />
+          </Key>
+          <Property Name="ResourceId" Type="int" Nullable="false" />
+          <Property Name="ResourceResId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="ProjectCode" Type="nchar" MaxLength="5" />
+          <Property Name="BeginDate" Type="date" Nullable="false" />
+          <Property Name="EndDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'APSITestDb.dbo.TestUser' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TestUser">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_PROJECT_EMPLOYEES_EMPL">
           <End Role="EMPLOYEES" Type="Self.EMPLOYEES" Multiplicity="1">
@@ -103,11 +141,57 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RESOURCES_RESERVATIONS_EMPLOYEES">
+          <End Role="EMPLOYEES" Type="Self.EMPLOYEES" Multiplicity="1" />
+          <End Role="RESOURCES_RESERVATIONS" Type="Self.RESOURCES_RESERVATIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPLOYEES">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="RESOURCES_RESERVATIONS">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RESOURCES_RESERVATIONS_PROJECTS">
+          <End Role="PROJECTS" Type="Self.PROJECTS" Multiplicity="0..1" />
+          <End Role="RESOURCES_RESERVATIONS" Type="Self.RESOURCES_RESERVATIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROJECTS">
+              <PropertyRef Name="ProjectCode" />
+            </Principal>
+            <Dependent Role="RESOURCES_RESERVATIONS">
+              <PropertyRef Name="ProjectCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RESOURCES_RESERVATIONS_RESOURCES">
+          <End Role="RESOURCES" Type="Self.RESOURCES" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RESOURCES_RESERVATIONS" Type="Self.RESOURCES_RESERVATIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RESOURCES">
+              <PropertyRef Name="ResourceId" />
+            </Principal>
+            <Dependent Role="RESOURCES_RESERVATIONS">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="APSITestDbModelStoreContainer">
           <EntitySet Name="EMPLOYEES" EntityType="Self.EMPLOYEES" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PROJECT_EMPLOYEES" EntityType="Self.PROJECT_EMPLOYEES" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PROJECT_EMPLOYEES_RESERVATION" EntityType="Self.PROJECT_EMPLOYEES_RESERVATION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PROJECTS" EntityType="Self.PROJECTS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RESOURCES" EntityType="Self.RESOURCES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RESOURCES_RESERVATIONS" EntityType="Self.RESOURCES_RESERVATIONS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TestUser" EntityType="Self.TestUser" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TestUser].[ID] AS [ID]
+    FROM [dbo].[TestUser] AS [TestUser]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_PROJECT_EMPLOYEES_EMPL" Association="Self.FK_PROJECT_EMPLOYEES_EMPL">
             <End Role="EMPLOYEES" EntitySet="EMPLOYEES" />
             <End Role="PROJECT_EMPLOYEES" EntitySet="PROJECT_EMPLOYEES" />
@@ -124,21 +208,35 @@
             <End Role="PROJECT_EMPLOYEES" EntitySet="PROJECT_EMPLOYEES" />
             <End Role="PROJECT_EMPLOYEES_RESERVATION" EntitySet="PROJECT_EMPLOYEES_RESERVATION" />
           </AssociationSet>
+          <AssociationSet Name="FK_RESOURCES_RESERVATIONS_EMPLOYEES" Association="Self.FK_RESOURCES_RESERVATIONS_EMPLOYEES">
+            <End Role="EMPLOYEES" EntitySet="EMPLOYEES" />
+            <End Role="RESOURCES_RESERVATIONS" EntitySet="RESOURCES_RESERVATIONS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RESOURCES_RESERVATIONS_PROJECTS" Association="Self.FK_RESOURCES_RESERVATIONS_PROJECTS">
+            <End Role="PROJECTS" EntitySet="PROJECTS" />
+            <End Role="RESOURCES_RESERVATIONS" EntitySet="RESOURCES_RESERVATIONS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RESOURCES_RESERVATIONS_RESOURCES" Association="Self.FK_RESOURCES_RESERVATIONS_RESOURCES">
+            <End Role="RESOURCES" EntitySet="RESOURCES" />
+            <End Role="RESOURCES_RESERVATIONS" EntitySet="RESOURCES_RESERVATIONS" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="APSITestDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="EMPLOYEE">
+        <EntityType Name="EMPLOYEES">
           <Key>
             <PropertyRef Name="EmployeeId" />
           </Key>
           <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Forename" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Surname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="PROJECT_EMPLOYEES" Relationship="Self.FK_PROJECT_EMPLOYEES_EMPL" FromRole="EMPLOYEES" ToRole="PROJECT_EMPLOYEES" />
           <Property Name="EmployeeType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="AADName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PROJECT_EMPLOYEES" Relationship="Self.FK_PROJECT_EMPLOYEES_EMPL" FromRole="EMPLOYEES" ToRole="PROJECT_EMPLOYEES" />
+          <NavigationProperty Name="RESOURCES_RESERVATIONS" Relationship="Self.FK_RESOURCES_RESERVATIONS_EMPLOYEES" FromRole="EMPLOYEES" ToRole="RESOURCES_RESERVATIONS" />
         </EntityType>
         <EntityType Name="PROJECT_EMPLOYEES">
           <Key>
@@ -148,8 +246,8 @@
           <Property Name="ProjectCode" Type="String" MaxLength="5" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="EmployeeId" Type="Int32" Nullable="false" />
           <Property Name="ProjectOwner" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="EMPLOYEE" Relationship="Self.FK_PROJECT_EMPLOYEES_EMPL" FromRole="PROJECT_EMPLOYEES" ToRole="EMPLOYEES" />
-          <NavigationProperty Name="PROJECT" Relationship="Self.FK_PROJECT_EMPLOYEES_PROJ" FromRole="PROJECT_EMPLOYEES" ToRole="PROJECTS" />
+          <NavigationProperty Name="EMPLOYEES" Relationship="Self.FK_PROJECT_EMPLOYEES_EMPL" FromRole="PROJECT_EMPLOYEES" ToRole="EMPLOYEES" />
+          <NavigationProperty Name="PROJECTS" Relationship="Self.FK_PROJECT_EMPLOYEES_PROJ" FromRole="PROJECT_EMPLOYEES" ToRole="PROJECTS" />
           <NavigationProperty Name="PROJECT_EMPLOYEES_RESERVATION" Relationship="Self.FK_PROJECT_EMPLOYEES_RESERVATION1" FromRole="PROJECT_EMPLOYEES" ToRole="PROJECT_EMPLOYEES_RESERVATION" />
           <NavigationProperty Name="PROJECT_EMPLOYEES_RESERVATION1" Relationship="Self.FK_PROJECT_EMPLOYEES_RESERVATION2" FromRole="PROJECT_EMPLOYEES" ToRole="PROJECT_EMPLOYEES_RESERVATION" />
         </EntityType>
@@ -169,16 +267,57 @@
           <NavigationProperty Name="PROJECT_EMPLOYEES" Relationship="Self.FK_PROJECT_EMPLOYEES_RESERVATION1" FromRole="PROJECT_EMPLOYEES_RESERVATION" ToRole="PROJECT_EMPLOYEES" />
           <NavigationProperty Name="PROJECT_EMPLOYEES1" Relationship="Self.FK_PROJECT_EMPLOYEES_RESERVATION2" FromRole="PROJECT_EMPLOYEES_RESERVATION" ToRole="PROJECT_EMPLOYEES" />
         </EntityType>
-        <EntityType Name="PROJECT">
+        <EntityType Name="PROJECTS">
           <Key>
             <PropertyRef Name="ProjectCode" />
           </Key>
           <Property Name="ProjectCode" Type="String" MaxLength="5" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="PROJECT_EMPLOYEES" Relationship="Self.FK_PROJECT_EMPLOYEES_PROJ" FromRole="PROJECTS" ToRole="PROJECT_EMPLOYEES" />
+          <NavigationProperty Name="RESOURCES_RESERVATIONS" Relationship="Self.FK_RESOURCES_RESERVATIONS_PROJECTS" FromRole="PROJECTS" ToRole="RESOURCES_RESERVATIONS" />
+        </EntityType>
+        <EntityType Name="RESOURCES">
+          <Key>
+            <PropertyRef Name="ResourceId" />
+          </Key>
+          <Property Name="ResourceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RESOURCES_RESERVATIONS" Relationship="Self.FK_RESOURCES_RESERVATIONS_RESOURCES" FromRole="RESOURCES" ToRole="RESOURCES_RESERVATIONS" />
+        </EntityType>
+        <EntityType Name="RESOURCES_RESERVATIONS">
+          <Key>
+            <PropertyRef Name="ResourceId" />
+            <PropertyRef Name="ResourceResId" />
+          </Key>
+          <Property Name="ResourceId" Type="Int32" Nullable="false" />
+          <Property Name="ResourceResId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="ProjectCode" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
+          <Property Name="BeginDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="EMPLOYEES" Relationship="Self.FK_RESOURCES_RESERVATIONS_EMPLOYEES" FromRole="RESOURCES_RESERVATIONS" ToRole="EMPLOYEES" />
+          <NavigationProperty Name="PROJECTS" Relationship="Self.FK_RESOURCES_RESERVATIONS_PROJECTS" FromRole="RESOURCES_RESERVATIONS" ToRole="PROJECTS" />
+          <NavigationProperty Name="RESOURCES" Relationship="Self.FK_RESOURCES_RESERVATIONS_RESOURCES" FromRole="RESOURCES_RESERVATIONS" ToRole="RESOURCES" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TestUser">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_PROJECT_EMPLOYEES_EMPL">
-          <End Role="EMPLOYEES" Type="Self.EMPLOYEE" Multiplicity="1">
+          <End Role="EMPLOYEES" Type="Self.EMPLOYEES" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="PROJECT_EMPLOYEES" Type="Self.PROJECT_EMPLOYEES" Multiplicity="*" />
@@ -191,8 +330,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RESOURCES_RESERVATIONS_EMPLOYEES">
+          <End Role="EMPLOYEES" Type="Self.EMPLOYEES" Multiplicity="1" />
+          <End Role="RESOURCES_RESERVATIONS" Type="Self.RESOURCES_RESERVATIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPLOYEES">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="RESOURCES_RESERVATIONS">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PROJECT_EMPLOYEES_PROJ">
-          <End Role="PROJECTS" Type="Self.PROJECT" Multiplicity="1">
+          <End Role="PROJECTS" Type="Self.PROJECTS" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="PROJECT_EMPLOYEES" Type="Self.PROJECT_EMPLOYEES" Multiplicity="*" />
@@ -235,14 +386,48 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="APSIDbEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="EMPLOYEES" EntityType="Self.EMPLOYEE" />
+        <Association Name="FK_RESOURCES_RESERVATIONS_PROJECTS">
+          <End Role="PROJECTS" Type="Self.PROJECTS" Multiplicity="0..1" />
+          <End Role="RESOURCES_RESERVATIONS" Type="Self.RESOURCES_RESERVATIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROJECTS">
+              <PropertyRef Name="ProjectCode" />
+            </Principal>
+            <Dependent Role="RESOURCES_RESERVATIONS">
+              <PropertyRef Name="ProjectCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RESOURCES_RESERVATIONS_RESOURCES">
+          <End Role="RESOURCES" Type="Self.RESOURCES" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RESOURCES_RESERVATIONS" Type="Self.RESOURCES_RESERVATIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RESOURCES">
+              <PropertyRef Name="ResourceId" />
+            </Principal>
+            <Dependent Role="RESOURCES_RESERVATIONS">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="APSITestDbEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EMPLOYEES" EntityType="Self.EMPLOYEES" />
           <EntitySet Name="PROJECT_EMPLOYEES" EntityType="Self.PROJECT_EMPLOYEES" />
           <EntitySet Name="PROJECT_EMPLOYEES_RESERVATION" EntityType="Self.PROJECT_EMPLOYEES_RESERVATION" />
-          <EntitySet Name="PROJECTS" EntityType="Self.PROJECT" />
+          <EntitySet Name="PROJECTS" EntityType="Self.PROJECTS" />
+          <EntitySet Name="RESOURCES" EntityType="Self.RESOURCES" />
+          <EntitySet Name="RESOURCES_RESERVATIONS" EntityType="Self.RESOURCES_RESERVATIONS" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="TestUser" EntityType="Self.TestUser" />
           <AssociationSet Name="FK_PROJECT_EMPLOYEES_EMPL" Association="Self.FK_PROJECT_EMPLOYEES_EMPL">
             <End Role="EMPLOYEES" EntitySet="EMPLOYEES" />
             <End Role="PROJECT_EMPLOYEES" EntitySet="PROJECT_EMPLOYEES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RESOURCES_RESERVATIONS_EMPLOYEES" Association="Self.FK_RESOURCES_RESERVATIONS_EMPLOYEES">
+            <End Role="EMPLOYEES" EntitySet="EMPLOYEES" />
+            <End Role="RESOURCES_RESERVATIONS" EntitySet="RESOURCES_RESERVATIONS" />
           </AssociationSet>
           <AssociationSet Name="FK_PROJECT_EMPLOYEES_PROJ" Association="Self.FK_PROJECT_EMPLOYEES_PROJ">
             <End Role="PROJECTS" EntitySet="PROJECTS" />
@@ -256,21 +441,29 @@
             <End Role="PROJECT_EMPLOYEES" EntitySet="PROJECT_EMPLOYEES" />
             <End Role="PROJECT_EMPLOYEES_RESERVATION" EntitySet="PROJECT_EMPLOYEES_RESERVATION" />
           </AssociationSet>
+          <AssociationSet Name="FK_RESOURCES_RESERVATIONS_PROJECTS" Association="Self.FK_RESOURCES_RESERVATIONS_PROJECTS">
+            <End Role="PROJECTS" EntitySet="PROJECTS" />
+            <End Role="RESOURCES_RESERVATIONS" EntitySet="RESOURCES_RESERVATIONS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RESOURCES_RESERVATIONS_RESOURCES" Association="Self.FK_RESOURCES_RESERVATIONS_RESOURCES">
+            <End Role="RESOURCES" EntitySet="RESOURCES" />
+            <End Role="RESOURCES_RESERVATIONS" EntitySet="RESOURCES_RESERVATIONS" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="APSITestDbModelStoreContainer" CdmEntityContainer="APSIDbEntities">
+        <EntityContainerMapping StorageEntityContainer="APSITestDbModelStoreContainer" CdmEntityContainer="APSITestDbEntities1">
           <EntitySetMapping Name="EMPLOYEES">
-            <EntityTypeMapping TypeName="APSITestDbModel.EMPLOYEE">
+            <EntityTypeMapping TypeName="APSITestDbModel.EMPLOYEES">
               <MappingFragment StoreEntitySet="EMPLOYEES">
-                <ScalarProperty Name="AADName" ColumnName="AADName" />
-                <ScalarProperty Name="EmployeeType" ColumnName="EmployeeType" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="Forename" ColumnName="Forename" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="EmployeeType" ColumnName="EmployeeType" />
+                <ScalarProperty Name="AADName" ColumnName="AADName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -297,10 +490,49 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PROJECTS">
-            <EntityTypeMapping TypeName="APSITestDbModel.PROJECT">
+            <EntityTypeMapping TypeName="APSITestDbModel.PROJECTS">
               <MappingFragment StoreEntitySet="PROJECTS">
                 <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RESOURCES">
+            <EntityTypeMapping TypeName="APSITestDbModel.RESOURCES">
+              <MappingFragment StoreEntitySet="RESOURCES">
+                <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RESOURCES_RESERVATIONS">
+            <EntityTypeMapping TypeName="APSITestDbModel.RESOURCES_RESERVATIONS">
+              <MappingFragment StoreEntitySet="RESOURCES_RESERVATIONS">
+                <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+                <ScalarProperty Name="ResourceResId" ColumnName="ResourceResId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
+                <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="APSITestDbModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestUser">
+            <EntityTypeMapping TypeName="APSITestDbModel.TestUser">
+              <MappingFragment StoreEntitySet="TestUser">
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -318,7 +550,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

@@ -13,9 +13,11 @@ namespace APSI_ResevationMod.Models
 
         }
         
-        public DbSet<PROJECT> ProjectContext { get; set; }
+        public DbSet<PROJECTS> ProjectContext { get; set; }
         public DbSet<PROJECT_EMPLOYEES_RESERVATION> ProjectEmployeeReservationContext { get; set; }
         public DbSet<PROJECT_EMPLOYEES> ProjectEmployeeContext { get; set; }
+        public DbSet<RESOURCES> ResourceContext { get; set; }
+        public DbSet<RESOURCES_RESERVATIONS> ResourceReservationContext { get; set; }
 
     }
 }

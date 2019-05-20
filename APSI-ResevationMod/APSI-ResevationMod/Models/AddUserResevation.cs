@@ -7,6 +7,6 @@ namespace APSI_ResevationMod.Models
 {
     public class AddUserResevation:PROJECT_EMPLOYEES_RESERVATION
     {
-        public List<PROJECT> projects { get; set; }
+        public List<PROJECTS> projects { get; set; }
     }
 }

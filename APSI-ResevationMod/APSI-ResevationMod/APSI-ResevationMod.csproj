@@ -176,14 +176,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AddUserResevation.cs" />
+    <Compile Include="Models\EMPLOYEES.cs">
+      <DependentUpon>ReservationModule.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ProjectDetails.cs" />
     <Compile Include="Models\Contextt.cs" />
     <Compile Include="Models\ProjectCreateView.cs" />
-    <Compile Include="Models\Resource.cs" />
-    <Compile Include="Models\EMPLOYEE.cs">
-      <DependentUpon>ReservationModule.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PROJECT.cs">
+    <Compile Include="Models\PROJECTS.cs">
       <DependentUpon>ReservationModule.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PROJECT_EMPLOYEES.cs">
@@ -207,7 +206,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ReservationModule.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Resource.cs" />
     <Compile Include="Models\EmployeeReservation.cs" />
+    <Compile Include="Models\RESOURCES.cs">
+      <DependentUpon>ReservationModule.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RESOURCES_RESERVATIONS.cs">
+      <DependentUpon>ReservationModule.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>ReservationModule.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TestUser.cs">
+      <DependentUpon>ReservationModule.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -275,14 +287,16 @@
     <Content Include="Views\Home\UserNotExisitngInDB.cshtml" />
     <Content Include="Views\Home\NotAuthenticated.cshtml" />
     <Content Include="Views\Home\OnlyForProgrammers.cshtml" />
-    <Content Include="Views\Home\ResourceList.cshtml" />
-    <Content Include="Views\Home\ResourceReservation.cshtml" />
+    <Content Include="Views\Home\ResourceReservation1.cshtml" />
     <Content Include="Views\Home\ProjectList.cshtml" />
     <Content Include="Views\Home\CreateProject.cshtml" />
     <Content Include="Views\Home\EmployeeReservation.cshtml" />
     <Content Include="Views\Home\EmployeeIsReserved.cshtml" />
     <Content Include="Views\Home\ProjectDetails.cshtml" />
     <Content Include="Views\Home\UserListFromProject.cshtml" />
+    <Content Include="Views\Home\ResourceList.cshtml" />
+    <Content Include="Views\Home\CreateResource.cshtml" />
+    <Content Include="Views\Home\ResourceReservation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -12,12 +12,13 @@ namespace APSI_ResevationMod.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PROJECT
+    public partial class PROJECTS
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PROJECT()
+        public PROJECTS()
         {
             this.PROJECT_EMPLOYEES = new HashSet<PROJECT_EMPLOYEES>();
+            this.RESOURCES_RESERVATIONS = new HashSet<RESOURCES_RESERVATIONS>();
         }
     
         public string ProjectCode { get; set; }
@@ -25,5 +26,7 @@ namespace APSI_ResevationMod.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PROJECT_EMPLOYEES> PROJECT_EMPLOYEES { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RESOURCES_RESERVATIONS> RESOURCES_RESERVATIONS { get; set; }
     }
 }

@@ -1,50 +1,54 @@
-﻿@model APSI_ResevationMod.Models.Resource
+﻿@model APSI_ResevationMod.Models.RESOURCES_RESERVATIONS
+
 @{
-    ViewBag.Title = "Reserve";
+    ViewBag.Title = "ResourceReservation";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Resource Reservation</h2>
-<h2>@DateTime.Now.ToShortDateString()</h2>
+<h2>ResourceReservation</h2>
 
-
-@using (Html.BeginForm())
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-
+    
     <div class="form-horizontal">
-
+        <h4>RESOURCES RESERVATIONS</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID)
+        
 
         <div class="form-group">
-            @Html.DisplayFor(model => model.name)
-        </div>
-
-        <div class="form-group">
-
-            @Html.Label("Reservation from", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div>
-                @Html.EditorFor(model => model.ReservationDataFrom, new { htmlAttributes = new { @class = "form-control", type = "date" } })
-
-            </div>
-            @Html.Label("Reservation To", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div>
-                @Html.EditorFor(model => model.ReservationDataTo, new { htmlAttributes = new { @class = "form-control", type = "date" } })
-
+            @Html.LabelFor(model => model.ProjectCode, "ProjectCode", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProjectCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ProjectCode, "", new { @class = "text-danger" })
             </div>
         </div>
 
+        <div class="form-group">
+            @Html.LabelFor(model => model.BeginDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BeginDate, "", new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                @Html.ValidationMessageFor(model => model.BeginDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EndDate, "", new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Reserve" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "ResourceList")
+    @Html.ActionLink("Back to List", "Index")
 </div>

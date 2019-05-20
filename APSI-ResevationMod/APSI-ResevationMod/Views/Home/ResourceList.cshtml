@@ -1,4 +1,4 @@
-﻿@model IEnumerable<APSI_ResevationMod.Models.Resource>
+﻿@model IEnumerable<APSI_ResevationMod.Models.RESOURCES>
 
 @{
     ViewBag.Title = "ResourceList";
@@ -6,41 +6,40 @@
 }
 
 <h2>ResourceList</h2>
-<h2>@DateTime.Now.ToShortDateString()</h2>
 
+<p>
+    @Html.ActionLink("Create New", "CreateResource")
+</p>
 <table class="table">
     <tr>
         <th>
-            Name
+            @Html.DisplayNameFor(model => model.ResourceId)
         </th>
         <th>
-            ID
+            @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            Store
+            @Html.DisplayNameFor(model => model.Description)
         </th>
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
-    {
+@foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.name)
+            @Html.DisplayFor(modelItem => item.ResourceId)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ID)
+            @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.store)
+            @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.ActionLink("Reserve", "Reserve", new { id = item.ID })
+            @Html.ActionLink("Reserve", "ResourceReservation", new { id = item.ResourceId})
         </td>
-        <td>
-            @Html.ActionLink("Details", "ResourceDetails", new { id = item.ID })
-        </td>
+        
     </tr>
-    }
+}
 
 </table>

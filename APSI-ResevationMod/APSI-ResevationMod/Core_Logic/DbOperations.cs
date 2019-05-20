@@ -8,28 +8,28 @@ namespace APSI_ResevationMod.Core_Logic
 {
     public class DbOperations
     {
-        public List<EMPLOYEE> GetEmployees()
+        public List<EMPLOYEES> GetEmployees()
         {
-            List<EMPLOYEE> employees = new List<EMPLOYEE>();
-            using(var context = new APSIDbEntities())
+            List<EMPLOYEES> employees = new List<EMPLOYEES>();
+            using(var context = new APSITestDbEntities1 ())
             {
-                employees = context.EMPLOYEES.ToList<EMPLOYEE>();
+                employees = context.EMPLOYEES.ToList<EMPLOYEES>();
             }
             return employees;
         }
-        public List<PROJECT> GetProjects()
+        public List<PROJECTS> GetProjects()
         {
-            List<PROJECT> projects = new List<PROJECT>();
-            using (var context = new APSIDbEntities())
+            List<PROJECTS> projects = new List<PROJECTS>();
+            using (var context = new APSITestDbEntities1())
             {
-                projects = context.PROJECTS.ToList<PROJECT>();
+                projects = context.PROJECTS.ToList<PROJECTS>();
             }
             return projects;
         }
         public List<PROJECT_EMPLOYEES> GetEmployeeProjects(int EmployeeId)
         {
             List<PROJECT_EMPLOYEES> projects = new List<PROJECT_EMPLOYEES>();
-            using(var context = new APSIDbEntities())
+            using(var context = new APSITestDbEntities1())
             {
                 projects = context.PROJECT_EMPLOYEES.Where(r => r.EmployeeId == EmployeeId).ToList<PROJECT_EMPLOYEES>();
             }
@@ -38,7 +38,7 @@ namespace APSI_ResevationMod.Core_Logic
         public List<PROJECT_EMPLOYEES> GetEmployeeProjectsByPC(string ProjectCode)
         {
             List<PROJECT_EMPLOYEES> projects = new List<PROJECT_EMPLOYEES>();
-            using (var context = new APSIDbEntities())
+            using (var context = new APSITestDbEntities1())
             {
                 projects = context.PROJECT_EMPLOYEES.Where(r => r.ProjectCode == ProjectCode).ToList<PROJECT_EMPLOYEES>();
             }
@@ -47,7 +47,7 @@ namespace APSI_ResevationMod.Core_Logic
         public List<PROJECT_EMPLOYEES_RESERVATION> GetEmployeeReservation(int EmployeeId)
         {
             List<PROJECT_EMPLOYEES_RESERVATION> reservations = new List<PROJECT_EMPLOYEES_RESERVATION>();
-            using(var context = new APSIDbEntities())
+            using(var context = new APSITestDbEntities1())
             {
                 reservations = context.PROJECT_EMPLOYEES_RESERVATION.Where(r => r.EmployeeId == EmployeeId).ToList<PROJECT_EMPLOYEES_RESERVATION>();
             }
@@ -56,17 +56,42 @@ namespace APSI_ResevationMod.Core_Logic
         public List<PROJECT_EMPLOYEES_RESERVATION> GetEmployeeReservationByPC(string ProjectCode)
         {
             List<PROJECT_EMPLOYEES_RESERVATION> reservations = new List<PROJECT_EMPLOYEES_RESERVATION>();
-            using (var context = new APSIDbEntities())
+            using (var context = new APSITestDbEntities1())
             {
                 reservations = context.PROJECT_EMPLOYEES_RESERVATION.Where(r => r.ProjectCode == ProjectCode).ToList<PROJECT_EMPLOYEES_RESERVATION>();
             }
             return reservations;
         }
-        public static void AddProjectToDB(PROJECT model)
+        public List<RESOURCES> GetResources()
+        {
+            List<RESOURCES> resources = new List<RESOURCES>();
+            using (var context = new APSITestDbEntities1())
+            {
+                resources = context.RESOURCES.ToList<RESOURCES>();
+            }
+            return resources;
+        }
+        public static void AddProjectToDB(PROJECTS model)
         {
             using (var context = new Contextt()) 
             {
                 context.ProjectContext.Add(model);
+                context.SaveChanges();
+            };
+        }
+        public static void AddResourceToDB(RESOURCES model)
+        {
+            using (var context = new Contextt())
+            {
+                context.ResourceContext.Add(model);
+                context.SaveChanges();
+            };
+        }
+        public static void AddResourceReservationToDB(RESOURCES_RESERVATIONS model)
+        {
+            using (var context = new Contextt())
+            {
+                context.ResourceReservationContext.Add(model);
                 context.SaveChanges();
             };
         }
