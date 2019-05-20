@@ -14,6 +14,7 @@ namespace APSI_ResevationMod.Controllers
 
         private static List<EMPLOYEE> _employees = new List<EMPLOYEE>();
         private static List<PROJECT> _projects = new List<PROJECT>();
+        private static List<PROJECT_EMPLOYEES> _projectsEmployees = new List<PROJECT_EMPLOYEES>();
         private static DbOperations dbOperations = new DbOperations();
         private static PROJECT_EMPLOYEES_RESERVATION _reservation= new PROJECT_EMPLOYEES_RESERVATION();
         private static int _employeeId;
@@ -166,11 +167,16 @@ namespace APSI_ResevationMod.Controllers
 
         public ActionResult ProjectList()
         {
-
-            _projects = dbOperations.GetProjects();
             _loggedUserId = GetLoggedUserId();
+            _projects = dbOperations.GetProjects();
+            _projectsEmployees = dbOperations.GetEmployeeProjects(_loggedUserId);
+            var POProjects = new List<PROJECT>();
+            foreach (var projectEmp in _projectsEmployees)
+            {
+                POProjects.Add(_projects.Where(s => s.ProjectCode == projectEmp.ProjectCode).FirstOrDefault());
+            }
             //projects for owner only
-            return View(_projects);//okrojona lista projektow
+            return View(POProjects);//okrojona lista projektow
             
         }
 
