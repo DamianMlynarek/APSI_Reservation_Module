@@ -35,12 +35,30 @@ namespace APSI_ResevationMod.Core_Logic
             }
             return projects;
         }
+        public List<PROJECT_EMPLOYEES> GetEmployeeProjectsByPC(string ProjectCode)
+        {
+            List<PROJECT_EMPLOYEES> projects = new List<PROJECT_EMPLOYEES>();
+            using (var context = new APSIDbEntities())
+            {
+                projects = context.PROJECT_EMPLOYEES.Where(r => r.ProjectCode == ProjectCode).ToList<PROJECT_EMPLOYEES>();
+            }
+            return projects;
+        }
         public List<PROJECT_EMPLOYEES_RESERVATION> GetEmployeeReservation(int EmployeeId)
         {
             List<PROJECT_EMPLOYEES_RESERVATION> reservations = new List<PROJECT_EMPLOYEES_RESERVATION>();
             using(var context = new APSIDbEntities())
             {
                 reservations = context.PROJECT_EMPLOYEES_RESERVATION.Where(r => r.EmployeeId == EmployeeId).ToList<PROJECT_EMPLOYEES_RESERVATION>();
+            }
+            return reservations;
+        }
+        public List<PROJECT_EMPLOYEES_RESERVATION> GetEmployeeReservationByPC(string ProjectCode)
+        {
+            List<PROJECT_EMPLOYEES_RESERVATION> reservations = new List<PROJECT_EMPLOYEES_RESERVATION>();
+            using (var context = new APSIDbEntities())
+            {
+                reservations = context.PROJECT_EMPLOYEES_RESERVATION.Where(r => r.ProjectCode == ProjectCode).ToList<PROJECT_EMPLOYEES_RESERVATION>();
             }
             return reservations;
         }

@@ -1,0 +1,38 @@
+﻿@model List<APSI_ResevationMod.Models.EMPLOYEE>
+
+@{
+    ViewBag.Title = "List of Users";
+}
+<h2>@ViewBag.Title</h2>
+
+
+
+<div class="row page-box">
+    <table style="width:100%">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Availability</th>
+
+        </tr>
+        @foreach (var user in Model)
+        {
+            if (user.EmployeeType == "Programmer")
+            {
+                <tr>
+                    <td>@user.EmployeeId </td>
+                    <td>@user.Forename</td>
+                    <td>@user.Surname</td>
+                    <td> </td>
+
+                    <td>@Html.ActionLink("Details", "UserDetails", "Home", new { id = user.EmployeeId }, null)</td>
+
+                    @*<td>>@Html.ActionLink("Reserve", "EmployeeReservation", "Home", new { id = user.EmployeeId }, null) </td>
+                    *@
+                </tr>
+            }
+        }
+
+    </table>
+</div>
