@@ -18,7 +18,7 @@ namespace APSI_ResevationMod.Controllers
         private static DbOperations dbOperations = new DbOperations();
         private static PROJECT_EMPLOYEES_RESERVATION _reservation= new PROJECT_EMPLOYEES_RESERVATION();
         private static int _employeeId;
-        private static int _loggedUserId;
+        private static int _loggedUserId = 3 ;
         private static List<RESOURCES> _resources = new List<RESOURCES>();
         private static RESOURCES_RESERVATIONS _resourceReservation = new RESOURCES_RESERVATIONS();
 
@@ -222,7 +222,7 @@ namespace APSI_ResevationMod.Controllers
             var model2 = new PROJECT_EMPLOYEES();
             model2.ProjectCode = model.ProjectCode;
             model2.ProjectOwner = true;
-            model2.EmployeeId = _loggedUserId;
+            model2.EmployeeId = GetLoggedUserId();
             DbOperations.AddProjectEmployeeToDB(model2);
 
             return RedirectToAction("ProjectList");
@@ -235,7 +235,6 @@ namespace APSI_ResevationMod.Controllers
             model.EmployeeId = new int();
             model.projects = dbOperations.GetProjects();
             model.EmployeeId = id;
-            _loggedUserId = id;
             _employeeId = id;
             return View(model);
         }
@@ -255,13 +254,13 @@ namespace APSI_ResevationMod.Controllers
             
             if (noToDoubleProjectEmployees.Count()==0 )
             {
-                modelEmployee.EmployeeId = _loggedUserId;
+                modelEmployee.EmployeeId = _employeeId;
                 modelEmployee.ProjectCode = reservation.ProjectCode;
-                modelEmployee.ProjectOwner = true;
+                modelEmployee.ProjectOwner = false;
                 DbOperations.AddProjectEmployeeToDB(modelEmployee);
             }
             model.EmployeeId = _employeeId;
-            model.ProjectOwnerId = _loggedUserId;
+            model.ProjectOwnerId = GetLoggedUserId(); 
             model.BeginDate = reservation.BeginDate;
             model.EndDate = reservation.EndDate;
             model.Extent = reservation.Extent;
