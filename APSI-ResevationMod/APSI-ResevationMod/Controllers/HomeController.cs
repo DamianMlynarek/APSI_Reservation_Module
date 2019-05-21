@@ -231,13 +231,13 @@ namespace APSI_ResevationMod.Controllers
 
         public ActionResult EmployeeReservation(int id)
         {
-            var reservation = new AddUserResevation();
-            reservation.EmployeeId = new int();
-            reservation.projects = dbOperations.GetProjects();
-            reservation.EmployeeId = id;
+            var model = new AddUserResevation();
+            model.EmployeeId = new int();
+            model.projects = dbOperations.GetProjects();
+            model.EmployeeId = id;
             _loggedUserId = id;
             _employeeId = id;
-            return View(reservation);
+            return View(model);
         }
 
         [HttpPost]
@@ -247,22 +247,19 @@ namespace APSI_ResevationMod.Controllers
             {
                 return View(reservation);
             }
-            var employeeProjects = dbOperations.GetEmployeeProjects(_employeeId);
-            var x = employeeProjects.Where(s => s.ProjectCode == reservation.ProjectCode).ToList();
-            if (x.Count()>0 )
-            {
-                return RedirectToAction("EmployeeIsReserved");
-            }
-           
             var model = new PROJECT_EMPLOYEES_RESERVATION();
             var modelEmployee = new PROJECT_EMPLOYEES();
 
-            modelEmployee.EmployeeId = _loggedUserId;
-            modelEmployee.ProjectCode = reservation.ProjectCode;
-            modelEmployee.ProjectOwner = true;
-            DbOperations.AddProjectEmployeeToDB(modelEmployee);
+            var employeeProjects = dbOperations.GetEmployeeProjects(_employeeId);
+            var noToDoubleProjectEmployees = employeeProjects.Where(s => s.ProjectCode.Replace(" ", string.Empty) == reservation.ProjectCode.Replace(" ", string.Empty)).ToList();
             
-            
+            if (noToDoubleProjectEmployees.Count()==0 )
+            {
+                modelEmployee.EmployeeId = _loggedUserId;
+                modelEmployee.ProjectCode = reservation.ProjectCode;
+                modelEmployee.ProjectOwner = true;
+                DbOperations.AddProjectEmployeeToDB(modelEmployee);
+            }
             model.EmployeeId = _employeeId;
             model.ProjectOwnerId = _loggedUserId;
             model.BeginDate = reservation.BeginDate;
