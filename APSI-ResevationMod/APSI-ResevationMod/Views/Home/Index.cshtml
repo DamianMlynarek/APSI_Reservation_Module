@@ -1,5 +1,9 @@
-﻿@{
+﻿@model APSI_ResevationMod.Models.EMPLOYEES
+@{
 
     ViewBag.Title = "Home";
-}
-<h2>Welcome to <strong>Reservation Module !</strong> </h2>
+}@*
+    <h2> @Html.Display(Model.Forename )</h2>
+    <h2> @Html.Display(" ")</h2>
+    <h2> @Html.Display(Model.Surname)</h2>
+*@<h2>Welcome to <strong>Reservation Module !</strong> </h2>

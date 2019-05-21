@@ -287,7 +287,6 @@
     <Content Include="Views\Home\UserNotExisitngInDB.cshtml" />
     <Content Include="Views\Home\NotAuthenticated.cshtml" />
     <Content Include="Views\Home\OnlyForProgrammers.cshtml" />
-    <Content Include="Views\Home\ResourceReservation1.cshtml" />
     <Content Include="Views\Home\ProjectList.cshtml" />
     <Content Include="Views\Home\CreateProject.cshtml" />
     <Content Include="Views\Home\EmployeeReservation.cshtml" />

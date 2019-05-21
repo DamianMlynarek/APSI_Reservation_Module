@@ -10,7 +10,7 @@ namespace APSI_ResevationMod.Controllers
 {
     public class HomeController : Controller
     {
-        private static EMPLOYEES currentEmployee = new EMPLOYEES();
+        private static EMPLOYEES _currentEmployee = new EMPLOYEES();
 
         private static List<EMPLOYEES> _employees = new List<EMPLOYEES>();
         private static List<PROJECTS> _projects = new List<PROJECTS>();
@@ -20,13 +20,17 @@ namespace APSI_ResevationMod.Controllers
         private static int _employeeId;
         private static int _loggedUserId;
         private static List<RESOURCES> _resources = new List<RESOURCES>();
-        
+        private static RESOURCES_RESERVATIONS _resourceReservation = new RESOURCES_RESERVATIONS();
+
 
         public ActionResult Index()
         {
             if(_employees.Count == 0)
                 _employees = dbOperations.GetEmployees();
-            return View(currentEmployee);
+
+            _currentEmployee = _employees.Find(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
+
+            return View(_currentEmployee);
         }
 
         public ActionResult About()
@@ -141,14 +145,6 @@ namespace APSI_ResevationMod.Controllers
         public ActionResult ResourceList()
         {
             _resources = dbOperations.GetResources();
-            var resources = new List<Resource>();
-            resources.Add(new Resource { ID = 1, name = "Printer" });
-            resources.Add(new Resource { ID = 2, name = "Pen" });
-            resources.Add(new Resource { ID = 3, name = "Table" });
-            resources.Add(new Resource { ID = 4, name = "Desk" });
-            resources.Add(new Resource { ID = 5, name = "Mouse" });
-            resources.Add(new Resource { ID = 6, name = "Keyboard" });
-            resources.Add(new Resource { ID = 7, name = "Mobile touchpad" });
 
             return View(_resources);
         }
@@ -171,10 +167,9 @@ namespace APSI_ResevationMod.Controllers
         }
        public ActionResult ResourceReservation(int id)
         {
+            _resourceReservation.ResourceId = id;
             var model = new RESOURCES_RESERVATIONS();
-            model.ResourceId = id;
-            model.EmployeeId = GetLoggedUserId();
-            
+
             return View(model);
         }
         [HttpPost]
@@ -184,8 +179,12 @@ namespace APSI_ResevationMod.Controllers
             {
                 return View(model);
             }
+            _resourceReservation.EmployeeId = GetLoggedUserId();
+            _resourceReservation.ProjectCode = model.ProjectCode;
+            _resourceReservation.BeginDate = model.BeginDate;
+            _resourceReservation.EndDate = model.EndDate;
 
-            DbOperations.AddResourceReservationToDB(model);
+            DbOperations.AddResourceReservationToDB(_resourceReservation);
             return RedirectToAction("ResourceList");
         }
 
@@ -293,7 +292,9 @@ namespace APSI_ResevationMod.Controllers
         public int GetLoggedUserId()
         {
             return 3;
-           // return (_projectOwnerId);
+            /*var loggedUser=_employees.Find(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
+            var userID = loggedUser.EmployeeId;
+            return userID;*/
         }
 
         public ActionResult EmployeeIsReserved()
