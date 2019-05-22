@@ -207,8 +207,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ReservationModule.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Resource.cs" />
     <Compile Include="Models\EmployeeReservation.cs" />
+    <Compile Include="Models\ResourceDetails.cs" />
     <Compile Include="Models\RESOURCES.cs">
       <DependentUpon>ReservationModule.tt</DependentUpon>
     </Compile>
@@ -297,6 +297,7 @@
     <Content Include="Views\Home\CreateResource.cshtml" />
     <Content Include="Views\Home\ResourceReservation.cshtml" />
     <Content Include="Views\Home\AddUserReservation.cshtml" />
+    <Content Include="Views\Home\ResourceDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

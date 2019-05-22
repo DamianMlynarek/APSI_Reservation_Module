@@ -55,12 +55,7 @@ namespace APSI_ResevationMod.Controllers
             
             return View();
         }
-        public ActionResult UserListFromProject(string ProjectCode)
-        {
-            _employees = dbOperations.GetEmployees();
-
-            return View(_employees);
-        }
+        
         public ActionResult UserList()
         {
            
@@ -141,6 +136,25 @@ namespace APSI_ResevationMod.Controllers
 
             _resources = dbOperations.GetResources();
             return View(_resources);
+        }
+        public ActionResult ResourceDetails(int id)
+        {
+            var RDetails = new ResourceDetails();
+            _resources = dbOperations.GetResources();
+            _employees = dbOperations.GetEmployees();
+            _projects = dbOperations.GetProjects();
+            RDetails.reservations = dbOperations.GetResourcesReservation(id);
+            RDetails.resource = _resources.Find(s => s.ResourceId == id);
+            RDetails.employees = new List<EMPLOYEES>();
+            RDetails.projects = new List<PROJECTS>();
+            
+            foreach (var reservation in RDetails.reservations)
+            {
+                RDetails.employees.Add(_employees.Where(s => s.EmployeeId == reservation.EmployeeId).FirstOrDefault());
+                RDetails.projects.Add(_projects.Where(s => s.ProjectCode == reservation.ProjectCode).FirstOrDefault());
+            }
+
+            return View(RDetails);
         }
 
         public ActionResult CreateResource()
@@ -224,7 +238,23 @@ namespace APSI_ResevationMod.Controllers
 
             return RedirectToAction("ProjectList");
         }
+        public ActionResult ProjectDetails(string ProjectCode)
+        {
+            var PDetails = new ProjectDetails();
+            var EmployeesOfProject = new List<EMPLOYEES>();
+            _employees = dbOperations.GetEmployees();
+            var projectEmployees = dbOperations.GetEmployeeProjectsByPC(ProjectCode);
 
+            foreach (var projectEmployee in projectEmployees)
+            {
+                EmployeesOfProject.Add(_employees.Where(s => s.EmployeeId == projectEmployee.EmployeeId).FirstOrDefault());
+            }
+            PDetails.employees = EmployeesOfProject;
+            PDetails.reservations = dbOperations.GetEmployeeReservationByPC(ProjectCode); ;
+            PDetails.project = _projects.Find(s => s.ProjectCode == ProjectCode);
+
+            return View(PDetails);
+        }
 
         public ActionResult EmployeeReservation(int id)
         {
@@ -265,23 +295,7 @@ namespace APSI_ResevationMod.Controllers
             DbOperations.AddEmployeeReservationToDB(model);
             return RedirectToAction("UserList");
         }
-        public ActionResult ProjectDetails(string ProjectCode)
-        {
-            var PDetails = new ProjectDetails();
-            var EmployeesOfProject = new List<EMPLOYEES>();
-            _employees = dbOperations.GetEmployees();
-             var projectEmployees = dbOperations.GetEmployeeProjectsByPC(ProjectCode);
-            
-            foreach (var projectEmployee in projectEmployees)
-            {
-                EmployeesOfProject.Add(_employees.Where(s => s.EmployeeId == projectEmployee.EmployeeId).FirstOrDefault());
-            }
-            PDetails.employees = EmployeesOfProject;
-            PDetails.reservations = dbOperations.GetEmployeeReservationByPC(ProjectCode); ;
-            PDetails.project = _projects.Find(s => s.ProjectCode == ProjectCode);
-           
-            return View(PDetails);
-        }
+        
         public int GetLoggedUserId()
         {
            // return 3;

@@ -1,0 +1,56 @@
+﻿@model APSI_ResevationMod.Models.ResourceDetails
+@{
+    ViewBag.Title = "ResourceDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="details">
+    @Html.Label("Project name")
+    <div>
+        @Html.DisplayFor(m => m.resource.Name, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+    @Html.Label("Resource Id")
+    <div>
+        @Html.DisplayFor(m => m.resource.ResourceId, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+    @Html.Label("Description")
+    <div>
+        @Html.DisplayFor(m => m.resource.Description, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+    <div>
+        @Html.ActionLink("Reserve", "ResourceReservation", new { id = Model.resource.ResourceId })
+    </div> 
+
+</div>
+    
+    <div>
+        <hr />
+        <div>
+            <b>Reservations</b>
+            <table style="width:100%">
+                <tr>
+                    <th>Forname</th>
+                    <th>Surname</th>
+                    <th>Project name</th>
+                    <th>Project code</th>
+                    <th>Date From</th>
+                    <th>Date To</th>
+                </tr>
+                @foreach (var reservation in Model.reservations)
+                {
+                <tr>
+                    <td>@Model.employees.Find(s => s.EmployeeId == reservation.EmployeeId).Forename</td>
+                    <td>@Model.employees.Find(s => s.EmployeeId == reservation.EmployeeId).Surname</td>
+                    <td>@Model.projects.Find(s => s.ProjectCode == reservation.ProjectCode).Name</td>
+                    <td>@reservation.ProjectCode</td>
+                    <td>@reservation.BeginDate</td>
+                    <td>@reservation.EndDate</td>
+                </tr>
+                }
+            </table>
+        </div>
+    </div>
+
+    <p>
+        @Html.ActionLink("Back to List", "ResourceList")
+    </p>
