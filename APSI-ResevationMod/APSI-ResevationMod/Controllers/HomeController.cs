@@ -198,8 +198,8 @@ namespace APSI_ResevationMod.Controllers
 
         public ActionResult ProjectList()
         {
-            if (User.Identity.IsAuthenticated == false)
-                return RedirectToAction("NotAuthenticated");
+           // if (User.Identity.IsAuthenticated == false)
+            //    return RedirectToAction("NotAuthenticated");
 
             _loggedUserId = GetLoggedUserId();
             _projects = dbOperations.GetProjects();
@@ -242,7 +242,10 @@ namespace APSI_ResevationMod.Controllers
         {
             var PDetails = new ProjectDetails();
             var EmployeesOfProject = new List<EMPLOYEES>();
+            PDetails.resourceReservation = new List<RESOURCES_RESERVATIONS>();
+            PDetails.resources = new List<RESOURCES>();
             _employees = dbOperations.GetEmployees();
+            _resources = dbOperations.GetResources();
             var projectEmployees = dbOperations.GetEmployeeProjectsByPC(ProjectCode);
 
             foreach (var projectEmployee in projectEmployees)
@@ -252,6 +255,12 @@ namespace APSI_ResevationMod.Controllers
             PDetails.employees = EmployeesOfProject;
             PDetails.reservations = dbOperations.GetEmployeeReservationByPC(ProjectCode); ;
             PDetails.project = _projects.Find(s => s.ProjectCode == ProjectCode);
+            PDetails.resourceReservation = dbOperations.GetResourcesReservationByPC(ProjectCode);
+            
+            foreach(var resResevation in PDetails.resourceReservation)
+            {
+                PDetails.resources.Add(_resources.Where(s => s.ResourceId == resResevation.ResourceId).FirstOrDefault());
+            }
 
             return View(PDetails);
         }
@@ -298,7 +307,7 @@ namespace APSI_ResevationMod.Controllers
         
         public int GetLoggedUserId()
         {
-           // return 3;
+           return 3;
             var loggedUser=_employees.Find(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
             var userID = loggedUser.EmployeeId;
             return userID;

@@ -80,6 +80,15 @@ namespace APSI_ResevationMod.Core_Logic
             }
             return reservations;
         }
+        public List<RESOURCES_RESERVATIONS> GetResourcesReservationByPC(string ProjectCode)
+        {
+            List<RESOURCES_RESERVATIONS> reservations = new List<RESOURCES_RESERVATIONS>();
+            using (var context = new APSITestDbEntities1())
+            {
+                reservations = context.RESOURCES_RESERVATIONS.Where(r => r.ProjectCode == ProjectCode).ToList<RESOURCES_RESERVATIONS>();
+            }
+            return reservations;
+        }
         public static void AddProjectToDB(PROJECTS model)
         {
             using (var context = new Contextt()) 

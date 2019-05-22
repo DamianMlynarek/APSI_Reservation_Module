@@ -16,43 +16,71 @@
     </div>
     <div>
         @Html.ActionLink("Add Employees for project", "UserList", new { ProjectCode = Model.project.ProjectCode })
-    </div> 
+    </div>
     <div>
         @Html.ActionLink("Add Resources for project", "ResourceList")
     </div>
-    
-</div>
-    
-    <div>
-        <hr />
-        <div>
-            <b>Reservations</b>
-            <table style="width:100%">
-                <tr>
-                    <th>Forname</th>
-                    <th>Surname</th>
-                    <th>Project owner ID</th>
-                    <th>EmployeeID</th>
-                    <th>Date From</th>
-                    <th>Date To</th>
-                    <th>Time Percent Reserved</th>
-                </tr>
-                @foreach (var reservation in Model.reservations)
-                {
-                    <tr>
-                        <td>@Model.employees.Find(s => s.EmployeeId == reservation.EmployeeId).Forename</td>
-                        <td>@Model.employees.Find(s => s.EmployeeId == reservation.EmployeeId).Surname</td>
-                        <td>@reservation.ProjectOwnerId</td>
-                        <td>@reservation.EmployeeId</td>
-                        <td>@reservation.BeginDate</td>
-                        <td>@reservation.EndDate</td>
-                        <td>@reservation.Extent</td>
-                    </tr>
-                }
-            </table>
-        </div>
-    </div>
 
-    <p>
-        @Html.ActionLink("Back to List", "ProjectList")
-    </p>
+</div>
+
+<div>
+    <hr />
+    <div>
+        <b>Employee Reservations</b>
+        <table style="width:100%">
+            <tr>
+                <th>Forname</th>
+                <th>Surname</th>
+                <th>Project owner ID</th>
+                <th>EmployeeID</th>
+                <th>Date From</th>
+                <th>Date To</th>
+                <th>Time Percent Reserved</th>
+            </tr>
+            @foreach (var reservation in Model.reservations)
+            {
+                <tr>
+                    <td>@Model.employees.Find(s => s.EmployeeId == reservation.EmployeeId).Forename</td>
+                    <td>@Model.employees.Find(s => s.EmployeeId == reservation.EmployeeId).Surname</td>
+                    <td>@reservation.ProjectOwnerId</td>
+                    <td>@reservation.EmployeeId</td>
+                    <td>@reservation.BeginDate</td>
+                    <td>@reservation.EndDate</td>
+                    <td>@reservation.Extent</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div>
+    <hr />
+    <div>
+        <b>Resource Reservations</b>
+        <table style="width:100%">
+            <tr>
+                <th>Resource name</th>
+                <th>Resource ID</th>
+                <th>Who reserves</th>
+                <th> </th>
+                <th>Date From</th>
+                <th>Date To</th>
+            </tr>
+            @foreach (var reservation in Model.resourceReservation)
+            {
+            <tr>
+                <td>@Model.resources.Find(s => s.ResourceId == reservation.ResourceId).Name</td>
+                <td>@Model.resources.Find(s => s.ResourceId == reservation.ResourceId).ResourceId</td>
+                <td>@Model.employees.Find(s => s.EmployeeId == reservation.EmployeeId).Forename</td>
+                <td>@Model.employees.Find(s => s.EmployeeId == reservation.EmployeeId).Surname</td>
+                <td>@reservation.BeginDate</td>
+                <td>@reservation.EndDate</td>
+            </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Back to List", "ProjectList")
+</p>
