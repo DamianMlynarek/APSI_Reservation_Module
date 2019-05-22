@@ -63,10 +63,7 @@ namespace APSI_ResevationMod.Controllers
         }
         public ActionResult UserList()
         {
-            /*if (id.HasValue)
-            {
-                _employeeId = id.Value;
-            }
+           
             if(User.Identity.IsAuthenticated == false)
                 return RedirectToAction("NotAuthenticated");
             var employee = _employees.FirstOrDefault(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
@@ -75,19 +72,18 @@ namespace APSI_ResevationMod.Controllers
             if(employee != null && employee.EmployeeType == "Owner")
                 _employees = dbOperations.GetEmployees();
             else
-                return RedirectToAction("UnauthorizedRequest");*/
-            _employees = dbOperations.GetEmployees();
+                return RedirectToAction("UnauthorizedRequest");
 
             return View(_employees);
         }
         
-        //[AuthorizeAD(GroupId = "fe52b7e1-0d05-425c-a6d4-1b9d9d0e6616")]
+        [AuthorizeAD(GroupId = "fe52b7e1-0d05-425c-a6d4-1b9d9d0e6616")]
         public ActionResult UserDetails(int? id)
         {
             
             ViewBag.Message = "User data";
             var employeeReservation = new EmployeeReservation();
-            /*if(User.Identity.IsAuthenticated == false)
+            if(User.Identity.IsAuthenticated == false)
                 return RedirectToAction("NotAuthenticated");
             var employee = _employees.FirstOrDefault(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
             if(employee == null)
@@ -111,11 +107,7 @@ namespace APSI_ResevationMod.Controllers
                 else
                     return RedirectToAction("OnlyForProgrammers");
             }
-            */
-            employeeReservation.employee = _employees.FirstOrDefault(e => e.EmployeeId == id);
-            employeeReservation.reservations = dbOperations.GetEmployeeReservation(id.Value);
-            employeeReservation.precentOfDaysReserved = DateUtils.CalculateProjectsLoadForEmployee(employeeReservation.reservations);
-
+            
             return View(employeeReservation);
         }
         
@@ -144,8 +136,10 @@ namespace APSI_ResevationMod.Controllers
         }
         public ActionResult ResourceList()
         {
-            _resources = dbOperations.GetResources();
+            if (User.Identity.IsAuthenticated == false)
+                return RedirectToAction("NotAuthenticated");
 
+            _resources = dbOperations.GetResources();
             return View(_resources);
         }
 
@@ -190,6 +184,9 @@ namespace APSI_ResevationMod.Controllers
 
         public ActionResult ProjectList()
         {
+            if (User.Identity.IsAuthenticated == false)
+                return RedirectToAction("NotAuthenticated");
+
             _loggedUserId = GetLoggedUserId();
             _projects = dbOperations.GetProjects();
             _projectsEmployees = dbOperations.GetEmployeeProjects(_loggedUserId);
@@ -287,10 +284,10 @@ namespace APSI_ResevationMod.Controllers
         }
         public int GetLoggedUserId()
         {
-            return 3;
-            /*var loggedUser=_employees.Find(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
+           // return 3;
+            var loggedUser=_employees.Find(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
             var userID = loggedUser.EmployeeId;
-            return userID;*/
+            return userID;
         }
 
         public ActionResult EmployeeIsReserved()
