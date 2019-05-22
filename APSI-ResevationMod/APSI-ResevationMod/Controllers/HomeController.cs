@@ -168,8 +168,8 @@ namespace APSI_ResevationMod.Controllers
        public ActionResult ResourceReservation(int id)
         {
             _resourceReservation.ResourceId = id;
-            var model = new RESOURCES_RESERVATIONS();
-
+            var model = new AddResourceReservation();
+            model.projects = dbOperations.GetProjects();
             return View(model);
         }
         [HttpPost]
