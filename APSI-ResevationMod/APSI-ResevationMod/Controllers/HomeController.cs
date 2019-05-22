@@ -131,8 +131,8 @@ namespace APSI_ResevationMod.Controllers
         }
         public ActionResult ResourceList()
         {
-            if (User.Identity.IsAuthenticated == false)
-                return RedirectToAction("NotAuthenticated");
+           // if (User.Identity.IsAuthenticated == false)
+            //    return RedirectToAction("NotAuthenticated");
 
             _resources = dbOperations.GetResources();
             return View(_resources);
