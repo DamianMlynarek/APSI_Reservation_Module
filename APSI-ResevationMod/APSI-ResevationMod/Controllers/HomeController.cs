@@ -198,8 +198,8 @@ namespace APSI_ResevationMod.Controllers
 
         public ActionResult ProjectList()
         {
-           // if (User.Identity.IsAuthenticated == false)
-            //    return RedirectToAction("NotAuthenticated");
+            if (User.Identity.IsAuthenticated == false)
+                return RedirectToAction("NotAuthenticated");
 
             _loggedUserId = GetLoggedUserId();
             _projects = dbOperations.GetProjects();
@@ -307,7 +307,7 @@ namespace APSI_ResevationMod.Controllers
         
         public int GetLoggedUserId()
         {
-           return 3;
+           //return 3;
             var loggedUser=_employees.Find(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
             var userID = loggedUser.EmployeeId;
             return userID;
