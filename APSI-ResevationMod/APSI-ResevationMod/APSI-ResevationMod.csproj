@@ -298,6 +298,8 @@
     <Content Include="Views\Home\ResourceReservation.cshtml" />
     <Content Include="Views\Home\AddUserReservation.cshtml" />
     <Content Include="Views\Home\ResourceDetails.cshtml" />
+    <Content Include="Views\Home\ResourceIsReserved.cshtml" />
+    <Content Include="Views\Home\EmployeeIsReservedTime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

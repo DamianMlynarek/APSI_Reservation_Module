@@ -58,32 +58,33 @@ namespace APSI_ResevationMod.Controllers
         
         public ActionResult UserList()
         {
-           
-            if(User.Identity.IsAuthenticated == false)
+
+            if (User.Identity.IsAuthenticated == false)
                 return RedirectToAction("NotAuthenticated");
             var employee = _employees.FirstOrDefault(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
-            if(employee == null)
+            if (employee == null)
                 return RedirectToAction("UserNotExisitngInDB");
-            if(employee != null && employee.EmployeeType == "Owner")
+            if (employee != null && employee.EmployeeType == "Owner")
                 _employees = dbOperations.GetEmployees();
             else
                 return RedirectToAction("UnauthorizedRequest");
 
             return View(_employees);
+            
         }
-        
+
         [AuthorizeAD(GroupId = "fe52b7e1-0d05-425c-a6d4-1b9d9d0e6616")]
         public ActionResult UserDetails(int? id)
         {
             
             ViewBag.Message = "User data";
             var employeeReservation = new EmployeeReservation();
-            if(User.Identity.IsAuthenticated == false)
+            if (User.Identity.IsAuthenticated == false)
                 return RedirectToAction("NotAuthenticated");
             var employee = _employees.FirstOrDefault(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
-            if(employee == null)
+            if (employee == null)
                 return RedirectToAction("UserNotExisitngInDB");
-            if(employee !=null && employee.EmployeeType=="Programmer")
+            if (employee != null && employee.EmployeeType == "Programmer")
             {
                 employeeReservation.employee = employee;
                 id = employee.EmployeeId;
@@ -92,9 +93,9 @@ namespace APSI_ResevationMod.Controllers
             }
             else
             {
-                if(id.HasValue)
+                if (id.HasValue)
                 {
-                
+
                     employeeReservation.employee = _employees.FirstOrDefault(e => e.EmployeeId == id);
                     employeeReservation.reservations = dbOperations.GetEmployeeReservation(id.Value);
                     employeeReservation.precentOfDaysReserved = DateUtils.CalculateProjectsLoadForEmployee(employeeReservation.reservations);
@@ -102,7 +103,11 @@ namespace APSI_ResevationMod.Controllers
                 else
                     return RedirectToAction("OnlyForProgrammers");
             }
-            
+
+            employeeReservation.employee = _employees.FirstOrDefault(e => e.EmployeeId == id);
+            employeeReservation.reservations = dbOperations.GetEmployeeReservation(id.Value);
+            employeeReservation.precentOfDaysReserved = DateUtils.CalculateProjectsLoadForEmployee(employeeReservation.reservations);
+
             return View(employeeReservation);
         }
         
@@ -131,8 +136,8 @@ namespace APSI_ResevationMod.Controllers
         }
         public ActionResult ResourceList()
         {
-           // if (User.Identity.IsAuthenticated == false)
-            //    return RedirectToAction("NotAuthenticated");
+            if (User.Identity.IsAuthenticated == false)
+                return RedirectToAction("NotAuthenticated");
 
             _resources = dbOperations.GetResources();
             return View(_resources);
@@ -181,7 +186,7 @@ namespace APSI_ResevationMod.Controllers
             return View(model);
         }
         [HttpPost]
-        public ActionResult ResourceReservation (RESOURCES_RESERVATIONS model)
+        public ActionResult ResourceReservation(RESOURCES_RESERVATIONS model)
         {
             if (!ModelState.IsValid)
             {
@@ -192,10 +197,30 @@ namespace APSI_ResevationMod.Controllers
             _resourceReservation.BeginDate = model.BeginDate;
             _resourceReservation.EndDate = model.EndDate;
 
+            var ReservationList = dbOperations.GetResourcesReservation(_resourceReservation.ResourceId);
+            TimeSpan beginDifference = new TimeSpan();
+            TimeSpan endDifference = new TimeSpan();
+            TimeSpan beginEndDifference = new TimeSpan();
+            TimeSpan EndbeginDifference = new TimeSpan();
+            TimeSpan zero = new TimeSpan(0, 0, 0, 0);
+            foreach (var reservation in ReservationList)
+            {
+                beginDifference = reservation.BeginDate - _resourceReservation.BeginDate;
+                endDifference = reservation.EndDate - _resourceReservation.EndDate;
+                beginEndDifference = reservation.BeginDate - _resourceReservation.EndDate;
+                EndbeginDifference = reservation.EndDate - _resourceReservation.BeginDate;
+
+                if ((beginEndDifference <= zero && endDifference >= zero)||(endDifference<=zero&&EndbeginDifference>=zero)||(beginEndDifference<=zero&&beginDifference>=zero))
+                    return RedirectToAction("ResourceIsReserved");
+
+            }
             DbOperations.AddResourceReservationToDB(_resourceReservation);
             return RedirectToAction("ResourceList");
         }
-
+        public ActionResult ResourceIsReserved()
+        {
+            return View();
+        }
         public ActionResult ProjectList()
         {
             if (User.Identity.IsAuthenticated == false)
@@ -285,6 +310,32 @@ namespace APSI_ResevationMod.Controllers
             var model = new PROJECT_EMPLOYEES_RESERVATION();
             var modelEmployee = new PROJECT_EMPLOYEES();
 
+            model.EmployeeId = _employeeId;
+            model.ProjectOwnerId = GetLoggedUserId(); 
+            model.BeginDate = reservation.BeginDate;
+            model.EndDate = reservation.EndDate;
+            model.Extent = reservation.Extent;
+            model.ProjectCode = reservation.ProjectCode;
+
+            var ReservationList = dbOperations.GetEmployeeReservation(model.EmployeeId);
+            TimeSpan beginDifference = new TimeSpan();
+            TimeSpan endDifference = new TimeSpan();
+            TimeSpan beginEndDifference = new TimeSpan();
+            TimeSpan EndbeginDifference = new TimeSpan();
+            TimeSpan zero = new TimeSpan(0, 0, 0, 0);
+            foreach (var reserv in ReservationList)
+            {
+                beginDifference = reserv.BeginDate- model.BeginDate;
+                endDifference = reserv.EndDate - model.EndDate;
+                beginEndDifference = reserv.BeginDate - model.EndDate;
+                EndbeginDifference = reserv.EndDate - model.BeginDate;
+
+                if ((beginEndDifference <= zero && endDifference >= zero) 
+                    || (endDifference <= zero && EndbeginDifference >= zero) 
+                    || (beginEndDifference <= zero && beginDifference >= zero))
+                    return RedirectToAction("EmployeeIsReservedTime");
+
+            }
             var employeeProjects = dbOperations.GetEmployeeProjects(_employeeId);
             var noToDoubleProjectEmployees = employeeProjects.Where(s => s.ProjectCode.Replace(" ", string.Empty) == reservation.ProjectCode.Replace(" ", string.Empty)).ToList();
             
@@ -295,16 +346,18 @@ namespace APSI_ResevationMod.Controllers
                 modelEmployee.ProjectOwner = false;
                 DbOperations.AddProjectEmployeeToDB(modelEmployee);
             }
-            model.EmployeeId = _employeeId;
-            model.ProjectOwnerId = GetLoggedUserId(); 
-            model.BeginDate = reservation.BeginDate;
-            model.EndDate = reservation.EndDate;
-            model.Extent = reservation.Extent;
-            model.ProjectCode = reservation.ProjectCode;
+            
+
+            
             DbOperations.AddEmployeeReservationToDB(model);
             return RedirectToAction("UserList");
         }
-        
+
+        public ActionResult EmployeeIsReservedTime()
+        {
+            return View();
+        }
+
         public int GetLoggedUserId()
         {
            //return 3;
