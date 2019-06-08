@@ -1,0 +1,20 @@
+﻿@model IEnumerable<APSI_ResevationMod.Models.ROOMS>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Details", "RoomDetails", new { id=item.RoomCode }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RoomCode })
+        </td>
+    </tr>
+}
+
+</table>

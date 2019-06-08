@@ -215,6 +215,12 @@
     <Compile Include="Models\RESOURCES_RESERVATIONS.cs">
       <DependentUpon>ReservationModule.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ROOMS.cs">
+      <DependentUpon>ReservationModule.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ROOM_RESERVATIONS.cs">
+      <DependentUpon>ReservationModule.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>ReservationModule.tt</DependentUpon>
     </Compile>
@@ -300,6 +306,9 @@
     <Content Include="Views\Home\ResourceDetails.cshtml" />
     <Content Include="Views\Home\ResourceIsReserved.cshtml" />
     <Content Include="Views\Home\EmployeeIsReservedTime.cshtml" />
+    <Content Include="Views\Home\RoomList.cshtml" />
+    <Content Include="Views\Home\DeleteResourceReservation.cshtml" />
+    <Content Include="Views\Home\DeleteEmployeeReservation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

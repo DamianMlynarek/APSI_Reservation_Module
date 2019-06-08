@@ -536,7 +536,7 @@ warning 6002: The table/view 'APSITestDb.dbo.TestUser' does not have a primary k
             <End Role="ROOMS" EntitySet="ROOMS" />
             <End Role="ROOM_RESERVATIONS" EntitySet="ROOM_RESERVATIONS" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="ROOM_RESERVATIONS">
           <Key>
             <PropertyRef Name="RoomCode" />
@@ -597,7 +597,7 @@ warning 6002: The table/view 'APSITestDb.dbo.TestUser' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>

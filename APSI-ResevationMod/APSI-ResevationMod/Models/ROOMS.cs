@@ -12,24 +12,16 @@ namespace APSI_ResevationMod.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PROJECTS
+    public partial class ROOMS
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PROJECTS()
+        public ROOMS()
         {
-            this.PROJECT_EMPLOYEES = new HashSet<PROJECT_EMPLOYEES>();
-            this.RESOURCES_RESERVATIONS = new HashSet<RESOURCES_RESERVATIONS>();
             this.ROOM_RESERVATIONS = new HashSet<ROOM_RESERVATIONS>();
         }
     
-        public string ProjectCode { get; set; }
-        public string Name { get; set; }
-        public int EstimatedTime { get; set; }
+        public string RoomCode { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PROJECT_EMPLOYEES> PROJECT_EMPLOYEES { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RESOURCES_RESERVATIONS> RESOURCES_RESERVATIONS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ROOM_RESERVATIONS> ROOM_RESERVATIONS { get; set; }
     }

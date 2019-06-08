@@ -17,6 +17,15 @@ namespace APSI_ResevationMod.Core_Logic
             }
             return employees;
         }
+        public List<ROOMS> GetRooms()
+        {
+            List<ROOMS> rooms = new List<ROOMS>();
+            using (var context = new APSITestDbEntities1())
+            {
+                rooms = context.ROOMS.ToList<ROOMS>();
+            }
+            return rooms;
+        }
         public List<PROJECTS> GetProjects()
         {
             List<PROJECTS> projects = new List<PROJECTS>();
@@ -62,6 +71,15 @@ namespace APSI_ResevationMod.Core_Logic
             }
             return reservations;
         }
+        public PROJECT_EMPLOYEES_RESERVATION GetEmployeeReservationByReservID(int ReservationID)
+        {
+            PROJECT_EMPLOYEES_RESERVATION reservation = new PROJECT_EMPLOYEES_RESERVATION();
+            using (var context = new APSITestDbEntities1())
+            {
+                reservation = context.PROJECT_EMPLOYEES_RESERVATION.First(r=>r.ProjEmplResId==ReservationID);
+            }
+            return reservation;
+        }
         public List<RESOURCES> GetResources()
         {
             List<RESOURCES> resources = new List<RESOURCES>();
@@ -89,6 +107,15 @@ namespace APSI_ResevationMod.Core_Logic
             }
             return reservations;
         }
+        public RESOURCES_RESERVATIONS GetResourcesReservationByReservID(int ReservationID)
+        {
+            RESOURCES_RESERVATIONS reservation = new RESOURCES_RESERVATIONS();
+            using (var context = new APSITestDbEntities1())
+            {
+                reservation = context.RESOURCES_RESERVATIONS.First(r=> r.ResourceResId==ReservationID);
+            }
+            return reservation;
+        }
         public static void AddProjectToDB(PROJECTS model)
         {
             using (var context = new Contextt()) 
@@ -113,11 +140,27 @@ namespace APSI_ResevationMod.Core_Logic
                 context.SaveChanges();
             };
         }
+        public static void RemoveResourceReservationFromDB(RESOURCES_RESERVATIONS model)
+        {
+            using (var context = new Contextt())
+            {
+                context.ResourceReservationContext.Remove(model);
+                context.SaveChanges();
+            };
+        }
         public static void AddEmployeeReservationToDB(PROJECT_EMPLOYEES_RESERVATION model)
         {
             using (var context = new Contextt())
             {
                 context.ProjectEmployeeReservationContext.Add(model);
+                context.SaveChanges();
+            };
+        }
+        public static void RemoveEmployeeReservationFromDB(PROJECT_EMPLOYEES_RESERVATION model)
+        {
+            using (var context = new Contextt())
+            {
+                context.ProjectEmployeeReservationContext.Remove(model);
                 context.SaveChanges();
             };
         }
