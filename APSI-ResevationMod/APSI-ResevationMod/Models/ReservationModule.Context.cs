@@ -33,5 +33,7 @@ namespace APSI_ResevationMod.Models
         public virtual DbSet<RESOURCES_RESERVATIONS> RESOURCES_RESERVATIONS { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TestUser> TestUser { get; set; }
+        public virtual DbSet<ROOM_RESERVATIONS> ROOM_RESERVATIONS { get; set; }
+        public virtual DbSet<ROOMS> ROOMS { get; set; }
     }
 }

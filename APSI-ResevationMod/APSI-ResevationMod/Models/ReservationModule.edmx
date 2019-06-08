@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="APSITestDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="APSITestDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="EMPLOYEES">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -44,6 +44,7 @@
           </Key>
           <Property Name="ProjectCode" Type="nchar" MaxLength="5" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="EstimatedTime" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="RESOURCES">
           <Key>
@@ -64,6 +65,24 @@
           <Property Name="ProjectCode" Type="nchar" MaxLength="5" />
           <Property Name="BeginDate" Type="date" Nullable="false" />
           <Property Name="EndDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ROOM_RESERVATIONS">
+          <Key>
+            <PropertyRef Name="RoomCode" />
+            <PropertyRef Name="RoomResId" />
+          </Key>
+          <Property Name="RoomCode" Type="nchar" MaxLength="5" Nullable="false" />
+          <Property Name="RoomResId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectCode" Type="nchar" MaxLength="5" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="BeginDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ROOMS">
+          <Key>
+            <PropertyRef Name="RoomCode" />
+          </Key>
+          <Property Name="RoomCode" Type="nchar" MaxLength="5" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -179,6 +198,44 @@ warning 6002: The table/view 'APSITestDb.dbo.TestUser' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ROOM_RESERVATIONS_EMPLOYEES">
+          <End Role="EMPLOYEES" Type="Self.EMPLOYEES" Multiplicity="1" />
+          <End Role="ROOM_RESERVATIONS" Type="Self.ROOM_RESERVATIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPLOYEES">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="ROOM_RESERVATIONS">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ROOM_RESERVATIONS_PROJECTS">
+          <End Role="PROJECTS" Type="Self.PROJECTS" Multiplicity="1" />
+          <End Role="ROOM_RESERVATIONS" Type="Self.ROOM_RESERVATIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROJECTS">
+              <PropertyRef Name="ProjectCode" />
+            </Principal>
+            <Dependent Role="ROOM_RESERVATIONS">
+              <PropertyRef Name="ProjectCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ROOM_RESERVATIONS_ROOMS">
+          <End Role="ROOMS" Type="Self.ROOMS" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ROOM_RESERVATIONS" Type="Self.ROOM_RESERVATIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROOMS">
+              <PropertyRef Name="RoomCode" />
+            </Principal>
+            <Dependent Role="ROOM_RESERVATIONS">
+              <PropertyRef Name="RoomCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="APSITestDbModelStoreContainer">
           <EntitySet Name="EMPLOYEES" EntityType="Self.EMPLOYEES" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PROJECT_EMPLOYEES" EntityType="Self.PROJECT_EMPLOYEES" Schema="dbo" store:Type="Tables" />
@@ -186,6 +243,8 @@ warning 6002: The table/view 'APSITestDb.dbo.TestUser' does not have a primary k
           <EntitySet Name="PROJECTS" EntityType="Self.PROJECTS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RESOURCES" EntityType="Self.RESOURCES" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RESOURCES_RESERVATIONS" EntityType="Self.RESOURCES_RESERVATIONS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROOM_RESERVATIONS" EntityType="Self.ROOM_RESERVATIONS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROOMS" EntityType="Self.ROOMS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TestUser" EntityType="Self.TestUser" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -220,9 +279,20 @@ warning 6002: The table/view 'APSITestDb.dbo.TestUser' does not have a primary k
             <End Role="RESOURCES" EntitySet="RESOURCES" />
             <End Role="RESOURCES_RESERVATIONS" EntitySet="RESOURCES_RESERVATIONS" />
           </AssociationSet>
+          <AssociationSet Name="FK_ROOM_RESERVATIONS_EMPLOYEES" Association="Self.FK_ROOM_RESERVATIONS_EMPLOYEES">
+            <End Role="EMPLOYEES" EntitySet="EMPLOYEES" />
+            <End Role="ROOM_RESERVATIONS" EntitySet="ROOM_RESERVATIONS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ROOM_RESERVATIONS_PROJECTS" Association="Self.FK_ROOM_RESERVATIONS_PROJECTS">
+            <End Role="PROJECTS" EntitySet="PROJECTS" />
+            <End Role="ROOM_RESERVATIONS" EntitySet="ROOM_RESERVATIONS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ROOM_RESERVATIONS_ROOMS" Association="Self.FK_ROOM_RESERVATIONS_ROOMS">
+            <End Role="ROOMS" EntitySet="ROOMS" />
+            <End Role="ROOM_RESERVATIONS" EntitySet="ROOM_RESERVATIONS" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="APSITestDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -237,6 +307,7 @@ warning 6002: The table/view 'APSITestDb.dbo.TestUser' does not have a primary k
           <Property Name="AADName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="PROJECT_EMPLOYEES" Relationship="Self.FK_PROJECT_EMPLOYEES_EMPL" FromRole="EMPLOYEES" ToRole="PROJECT_EMPLOYEES" />
           <NavigationProperty Name="RESOURCES_RESERVATIONS" Relationship="Self.FK_RESOURCES_RESERVATIONS_EMPLOYEES" FromRole="EMPLOYEES" ToRole="RESOURCES_RESERVATIONS" />
+          <NavigationProperty Name="ROOM_RESERVATIONS" Relationship="APSITestDbModel.FK_ROOM_RESERVATIONS_EMPLOYEES" FromRole="EMPLOYEES" ToRole="ROOM_RESERVATIONS" />
         </EntityType>
         <EntityType Name="PROJECT_EMPLOYEES">
           <Key>
@@ -275,6 +346,8 @@ warning 6002: The table/view 'APSITestDb.dbo.TestUser' does not have a primary k
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="PROJECT_EMPLOYEES" Relationship="Self.FK_PROJECT_EMPLOYEES_PROJ" FromRole="PROJECTS" ToRole="PROJECT_EMPLOYEES" />
           <NavigationProperty Name="RESOURCES_RESERVATIONS" Relationship="Self.FK_RESOURCES_RESERVATIONS_PROJECTS" FromRole="PROJECTS" ToRole="RESOURCES_RESERVATIONS" />
+          <Property Name="EstimatedTime" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ROOM_RESERVATIONS" Relationship="APSITestDbModel.FK_ROOM_RESERVATIONS_PROJECTS" FromRole="PROJECTS" ToRole="ROOM_RESERVATIONS" />
         </EntityType>
         <EntityType Name="RESOURCES">
           <Key>
@@ -449,7 +522,81 @@ warning 6002: The table/view 'APSITestDb.dbo.TestUser' does not have a primary k
             <End Role="RESOURCES" EntitySet="RESOURCES" />
             <End Role="RESOURCES_RESERVATIONS" EntitySet="RESOURCES_RESERVATIONS" />
           </AssociationSet>
+          <EntitySet Name="ROOM_RESERVATIONS" EntityType="APSITestDbModel.ROOM_RESERVATIONS" />
+          <EntitySet Name="ROOMS" EntityType="APSITestDbModel.ROOMS" />
+          <AssociationSet Name="FK_ROOM_RESERVATIONS_EMPLOYEES" Association="APSITestDbModel.FK_ROOM_RESERVATIONS_EMPLOYEES">
+            <End Role="EMPLOYEES" EntitySet="EMPLOYEES" />
+            <End Role="ROOM_RESERVATIONS" EntitySet="ROOM_RESERVATIONS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ROOM_RESERVATIONS_PROJECTS" Association="APSITestDbModel.FK_ROOM_RESERVATIONS_PROJECTS">
+            <End Role="PROJECTS" EntitySet="PROJECTS" />
+            <End Role="ROOM_RESERVATIONS" EntitySet="ROOM_RESERVATIONS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ROOM_RESERVATIONS_ROOMS" Association="APSITestDbModel.FK_ROOM_RESERVATIONS_ROOMS">
+            <End Role="ROOMS" EntitySet="ROOMS" />
+            <End Role="ROOM_RESERVATIONS" EntitySet="ROOM_RESERVATIONS" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="ROOM_RESERVATIONS">
+          <Key>
+            <PropertyRef Name="RoomCode" />
+            <PropertyRef Name="RoomResId" />
+          </Key>
+          <Property Name="RoomCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="true" />
+          <Property Name="RoomResId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="true" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="BeginDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="EMPLOYEES" Relationship="APSITestDbModel.FK_ROOM_RESERVATIONS_EMPLOYEES" FromRole="ROOM_RESERVATIONS" ToRole="EMPLOYEES" />
+          <NavigationProperty Name="PROJECTS" Relationship="APSITestDbModel.FK_ROOM_RESERVATIONS_PROJECTS" FromRole="ROOM_RESERVATIONS" ToRole="PROJECTS" />
+          <NavigationProperty Name="ROOMS" Relationship="APSITestDbModel.FK_ROOM_RESERVATIONS_ROOMS" FromRole="ROOM_RESERVATIONS" ToRole="ROOMS" />
+        </EntityType>
+        <EntityType Name="ROOMS">
+          <Key>
+            <PropertyRef Name="RoomCode" />
+          </Key>
+          <Property Name="RoomCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="ROOM_RESERVATIONS" Relationship="APSITestDbModel.FK_ROOM_RESERVATIONS_ROOMS" FromRole="ROOMS" ToRole="ROOM_RESERVATIONS" />
+        </EntityType>
+        <Association Name="FK_ROOM_RESERVATIONS_EMPLOYEES">
+          <End Type="APSITestDbModel.EMPLOYEES" Role="EMPLOYEES" Multiplicity="1" />
+          <End Type="APSITestDbModel.ROOM_RESERVATIONS" Role="ROOM_RESERVATIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPLOYEES">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="ROOM_RESERVATIONS">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ROOM_RESERVATIONS_PROJECTS">
+          <End Type="APSITestDbModel.PROJECTS" Role="PROJECTS" Multiplicity="1" />
+          <End Type="APSITestDbModel.ROOM_RESERVATIONS" Role="ROOM_RESERVATIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROJECTS">
+              <PropertyRef Name="ProjectCode" />
+            </Principal>
+            <Dependent Role="ROOM_RESERVATIONS">
+              <PropertyRef Name="ProjectCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ROOM_RESERVATIONS_ROOMS">
+          <End Type="APSITestDbModel.ROOMS" Role="ROOMS" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="APSITestDbModel.ROOM_RESERVATIONS" Role="ROOM_RESERVATIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROOMS">
+              <PropertyRef Name="RoomCode" />
+            </Principal>
+            <Dependent Role="ROOM_RESERVATIONS">
+              <PropertyRef Name="RoomCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -492,6 +639,7 @@ warning 6002: The table/view 'APSITestDb.dbo.TestUser' does not have a primary k
           <EntitySetMapping Name="PROJECTS">
             <EntityTypeMapping TypeName="APSITestDbModel.PROJECTS">
               <MappingFragment StoreEntitySet="PROJECTS">
+                <ScalarProperty Name="EstimatedTime" ColumnName="EstimatedTime" />
                 <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
@@ -533,6 +681,25 @@ warning 6002: The table/view 'APSITestDb.dbo.TestUser' does not have a primary k
             <EntityTypeMapping TypeName="APSITestDbModel.TestUser">
               <MappingFragment StoreEntitySet="TestUser">
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROOM_RESERVATIONS">
+            <EntityTypeMapping TypeName="APSITestDbModel.ROOM_RESERVATIONS">
+              <MappingFragment StoreEntitySet="ROOM_RESERVATIONS">
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
+                <ScalarProperty Name="RoomResId" ColumnName="RoomResId" />
+                <ScalarProperty Name="RoomCode" ColumnName="RoomCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROOMS">
+            <EntityTypeMapping TypeName="APSITestDbModel.ROOMS">
+              <MappingFragment StoreEntitySet="ROOMS">
+                <ScalarProperty Name="RoomCode" ColumnName="RoomCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
