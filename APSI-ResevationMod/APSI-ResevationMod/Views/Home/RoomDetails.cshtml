@@ -1,0 +1,51 @@
+﻿@model APSI_ResevationMod.Models.ROOM_RESERVATIONS
+
+<div>
+    <h4>ROOM_RESERVATIONS</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BeginDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BeginDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EMPLOYEES.Forename)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EMPLOYEES.Forename)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PROJECTS.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PROJECTS.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ROOMS.RoomCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROOMS.RoomCode)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "RoomList")
+</p>

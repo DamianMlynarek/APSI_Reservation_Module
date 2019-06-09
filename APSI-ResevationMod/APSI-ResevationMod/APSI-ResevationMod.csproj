@@ -285,7 +285,6 @@
     <Content Include="Views\Home\AddUser.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Hardware.cshtml" />
-    <Content Include="Views\Home\Room.cshtml" />
     <Content Include="Views\Home\UserDetails.cshtml" />
     <Content Include="Views\Home\UnauthorizedRequest.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
@@ -309,6 +308,7 @@
     <Content Include="Views\Home\RoomList.cshtml" />
     <Content Include="Views\Home\DeleteResourceReservation.cshtml" />
     <Content Include="Views\Home\DeleteEmployeeReservation.cshtml" />
+    <Content Include="Views\Home\RoomDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
