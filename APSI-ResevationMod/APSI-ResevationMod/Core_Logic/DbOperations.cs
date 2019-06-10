@@ -172,5 +172,22 @@ namespace APSI_ResevationMod.Core_Logic
                 context.SaveChanges();
             };
         }
+        public static void AddRoomReservationToDb(ROOM_RESERVATIONS model)
+        {
+            using (var context = new Contextt())
+            {
+                context.RoomReservationContext.Add(model);
+                context.SaveChanges();
+            };
+        }
+        public static void RemoveRoomReservationToDb(ROOM_RESERVATIONS model)
+        {
+            using (var context = new Contextt())
+            {
+                context.RoomReservationContext.Remove(model);
+                context.SaveChanges();
+            };
+        }
+
     }
 }

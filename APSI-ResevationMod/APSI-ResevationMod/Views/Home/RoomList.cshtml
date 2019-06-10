@@ -13,14 +13,17 @@
     </tr>
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomCode)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "RoomReservation", new { id = item.RoomCode })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RoomCode)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "RoomDetails", new { code = item.RoomCode }) |
+        
+            @Html.ActionLink("Reserve", "RoomReservation", new { code = item.RoomCode })
+        
+        </td>
+    </tr>
     }
 
 </table>

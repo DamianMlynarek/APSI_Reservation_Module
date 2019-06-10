@@ -19,6 +19,7 @@ namespace APSI_ResevationMod.Controllers
         private static DbOperations dbOperations = new DbOperations();
         private static PROJECT_EMPLOYEES_RESERVATION _reservation = new PROJECT_EMPLOYEES_RESERVATION();
         private static int _employeeId;
+        private static string _roomId;
         private static int _loggedUserId = 3;
         private static List<RESOURCES> _resources = new List<RESOURCES>();
         private static RESOURCES_RESERVATIONS _resourceReservation = new RESOURCES_RESERVATIONS();
@@ -406,19 +407,27 @@ namespace APSI_ResevationMod.Controllers
         {
             return View();
         }
-        public ActionResult RoomReservation()
+        public ActionResult RoomReservation(string code)
         {
-            DateTime time = new DateTime();
-            return View();
-
+            _roomId = code;
+            AddRoomReservation model = new AddRoomReservation();
+            model.projects = dbOperations.GetProjects();
+            return View(model);
         }
-
+        [HttpPost]
+        public ActionResult RoomReservation(ROOM_RESERVATIONS model)
+        {
+            model.RoomCode = _roomId;
+            model.EmployeeId = GetLoggedUserId();
+            DbOperations.AddRoomReservationToDb(model);
+            return RedirectToAction("RoomList");
+        }
         public ActionResult RoomList()
         {
             _rooms = dbOperations.GetRooms();
         return View(_rooms);
         }
-        public ActionResult RoomDetails()
+        public ActionResult RoomDetails(string code)
         {
             return View();
         }

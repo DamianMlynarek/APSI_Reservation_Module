@@ -176,6 +176,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AddResourceReservation.cs" />
+    <Compile Include="Models\AddRoomReservation.cs" />
     <Compile Include="Models\AddUserResevation.cs" />
     <Compile Include="Models\EMPLOYEES.cs">
       <DependentUpon>ReservationModule.tt</DependentUpon>
@@ -309,6 +310,7 @@
     <Content Include="Views\Home\DeleteResourceReservation.cshtml" />
     <Content Include="Views\Home\DeleteEmployeeReservation.cshtml" />
     <Content Include="Views\Home\RoomDetails.cshtml" />
+    <Content Include="Views\Home\RoomReservation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
