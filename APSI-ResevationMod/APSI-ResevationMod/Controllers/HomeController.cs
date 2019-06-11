@@ -438,8 +438,12 @@ namespace APSI_ResevationMod.Controllers
         }
         public ActionResult RoomDetails(string code)
         {
-            var model = dbOperations.GetRoomReservation(code);
-            return View();
+            var model = new RoomDetails();
+            model.reservations=dbOperations.GetRoomReservation(code);
+            model.RoomCode = code;
+            model.employees = dbOperations.GetEmployees();
+            model.projects = dbOperations.GetProjects();
+            return View(model);
         }
     }
 }

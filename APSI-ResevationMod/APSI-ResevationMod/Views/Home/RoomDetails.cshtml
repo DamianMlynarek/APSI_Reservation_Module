@@ -1,51 +1,43 @@
-﻿@model APSI_ResevationMod.Models.ROOM_RESERVATIONS
+﻿@model APSI_ResevationMod.Models.RoomDetails
 
-<div>
-    <h4>ROOM_RESERVATIONS</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.BeginDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BeginDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EMPLOYEES.Forename)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EMPLOYEES.Forename)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PROJECTS.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PROJECTS.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ROOMS.RoomCode)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ROOMS.RoomCode)
-        </dd>
-
-    </dl>
+<div class="details">
+    @Html.Label("Room Code")
+    <div>
+        @Html.DisplayFor(m => m.RoomCode, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Back to List", "RoomList")
-</p>
+
+  
+    <div>
+        <hr />
+        <div>
+            <b>Reservations</b>
+            <table style="width:100%">
+                <tr>
+                    <th>Reservation Id</th>
+                    <th>Forname</th>
+                    <th>Surname</th>
+                    <th>Project name</th>
+                    <th>Project code</th>
+                    <th>Date From</th>
+                    <th>Date To</th>
+                </tr>
+                @foreach (var reservation in Model.reservations)
+                {
+                <tr>
+                    <td>@reservation.RoomResId</td>
+                    <td>@Model.employees.Find(s => s.EmployeeId == reservation.EmployeeId).Forename</td>
+                    <td>@Model.employees.Find(s => s.EmployeeId == reservation.EmployeeId).Surname</td>
+                    <td>@Model.projects.Find(s => s.ProjectCode == reservation.ProjectCode).Name</td>
+                    <td>@reservation.ProjectCode </td>
+                    <td>@reservation.BeginDate</td>
+                    <td>@reservation.EndDate</td>
+                </tr>
+                }
+            </table>
+        </div>
+    </div>
+          
+    <p>
+        @Html.ActionLink("Back to List", "RoomList")
+    </p>

@@ -216,6 +216,7 @@
     <Compile Include="Models\RESOURCES_RESERVATIONS.cs">
       <DependentUpon>ReservationModule.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RoomDetails.cs" />
     <Compile Include="Models\ROOMS.cs">
       <DependentUpon>ReservationModule.tt</DependentUpon>
     </Compile>
