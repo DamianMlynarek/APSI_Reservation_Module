@@ -21,6 +21,7 @@ namespace APSI_ResevationMod.Controllers
         private static int _employeeId;
         private static string _roomId;
         private static int _loggedUserId = 3;
+        private static double _reservedHoursForProject;
         private static List<RESOURCES> _resources = new List<RESOURCES>();
         private static RESOURCES_RESERVATIONS _resourceReservation = new RESOURCES_RESERVATIONS();
 
@@ -307,6 +308,14 @@ namespace APSI_ResevationMod.Controllers
                 PDetails.resources.Add(_resources.Where(s => s.ResourceId == resResevation.ResourceId).FirstOrDefault());
             }
 
+            _reservedHoursForProject = 0;
+            foreach(var reservation in PDetails.reservations)
+            {
+                var AmountOfHour = (reservation.EndDate - reservation.BeginDate).Days*8*0.01 * reservation.Extent;
+                _reservedHoursForProject = _reservedHoursForProject+ AmountOfHour;
+            }
+            PDetails.reservedHours = _reservedHoursForProject;
+
             return View(PDetails);
         }
 
@@ -429,6 +438,7 @@ namespace APSI_ResevationMod.Controllers
         }
         public ActionResult RoomDetails(string code)
         {
+            var model = dbOperations.GetRoomReservation(code);
             return View();
         }
     }

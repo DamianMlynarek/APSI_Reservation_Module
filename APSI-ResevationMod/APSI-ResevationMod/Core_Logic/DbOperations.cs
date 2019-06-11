@@ -116,6 +116,15 @@ namespace APSI_ResevationMod.Core_Logic
             }
             return reservation;
         }
+        public List<ROOM_RESERVATIONS> GetRoomReservation(string RoomCode)
+        {
+            List<ROOM_RESERVATIONS> reservations = new List<ROOM_RESERVATIONS>();
+            using (var context = new APSITestDbEntities1())
+            {
+                reservations = context.ROOM_RESERVATIONS.Where(r => r.RoomCode == RoomCode).ToList<ROOM_RESERVATIONS>();
+            }
+            return reservations;
+        }
         public static void AddProjectToDB(PROJECTS model)
         {
             using (var context = new Contextt()) 

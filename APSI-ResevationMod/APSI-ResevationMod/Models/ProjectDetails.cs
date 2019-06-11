@@ -12,5 +12,6 @@ namespace APSI_ResevationMod.Models
         public PROJECTS project { get; set; }
         public List<RESOURCES> resources { get; set; }
         public List<RESOURCES_RESERVATIONS> resourceReservation { get; set; }
+        public double reservedHours;
     }
 }
