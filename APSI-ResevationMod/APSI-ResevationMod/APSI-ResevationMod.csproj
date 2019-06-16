@@ -313,6 +313,7 @@
     <Content Include="Views\Home\RoomDetails.cshtml" />
     <Content Include="Views\Home\RoomReservation.cshtml" />
     <Content Include="Views\Home\RoomIsReserved.cshtml" />
+    <Content Include="Views\Home\DeleteRoomReservation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

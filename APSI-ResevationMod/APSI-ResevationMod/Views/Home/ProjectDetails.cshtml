@@ -26,6 +26,9 @@
     <div>
         @Html.ActionLink("Add Resources for project", "ResourceList")
     </div>
+    <div>
+        @Html.ActionLink("Add Rooms for project", "RoomList")
+    </div>
 
 </div>
 
@@ -45,18 +48,18 @@
             </tr>
             @foreach (var reservation in Model.reservations)
             {
-            <tr>
-                <td>@Model.employees.Find(s => s.EmployeeId == reservation.EmployeeId).Forename</td>
-                <td>@Model.employees.Find(s => s.EmployeeId == reservation.EmployeeId).Surname</td>
-                <td>@reservation.ProjectOwnerId</td>
-                <td>@reservation.EmployeeId</td>
-                <td>@reservation.BeginDate</td>
-                <td>@reservation.EndDate</td>
-                <td>@reservation.Extent</td>
-                <td>
-                    @Html.ActionLink("Delete", "DeleteEmployeeReservation", new { id = reservation.ProjEmplResId })
-                </td>
-            </tr>
+                <tr>
+                    <td>@Model.employees.Find(s => s.EmployeeId == reservation.EmployeeId).Forename</td>
+                    <td>@Model.employees.Find(s => s.EmployeeId == reservation.EmployeeId).Surname</td>
+                    <td>@reservation.ProjectOwnerId</td>
+                    <td>@reservation.EmployeeId</td>
+                    <td>@reservation.BeginDate</td>
+                    <td>@reservation.EndDate</td>
+                    <td>@reservation.Extent</td>
+                    <td>
+                        @Html.ActionLink("Delete", "DeleteEmployeeReservation", new { id = reservation.ProjEmplResId })
+                    </td>
+                </tr>
             }
         </table>
     </div>
@@ -77,15 +80,44 @@
             </tr>
             @foreach (var reservation in Model.resourceReservation)
             {
+                <tr>
+                    <td>@Model.resources.Find(s => s.ResourceId == reservation.ResourceId).Name</td>
+                    <td>@Model.resources.Find(s => s.ResourceId == reservation.ResourceId).ResourceId</td>
+                    <td>@Model.employees.Find(s => s.EmployeeId == reservation.EmployeeId).Forename</td>
+                    <td>@Model.employees.Find(s => s.EmployeeId == reservation.EmployeeId).Surname</td>
+                    <td>@reservation.BeginDate</td>
+                    <td>@reservation.EndDate</td>
+                    <td>
+                        @Html.ActionLink("Delete", "DeleteResourceReservation", new { id = reservation.ResourceResId })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div>
+    <hr />
+    <div>
+        <b>Room Reservations</b>
+        <table style="width:100%">
             <tr>
-                <td>@Model.resources.Find(s => s.ResourceId == reservation.ResourceId).Name</td>
-                <td>@Model.resources.Find(s => s.ResourceId == reservation.ResourceId).ResourceId</td>
+                <th>Room Code</th>
+                <th>Forname</th>
+                <th>Surname</th>
+                <th>Date From</th>
+                <th>Date To</th>
+            </tr>
+            @foreach (var reservation in Model.roomReservation)
+            {
+            <tr>
+                <td>@reservation.RoomCode</td>
                 <td>@Model.employees.Find(s => s.EmployeeId == reservation.EmployeeId).Forename</td>
                 <td>@Model.employees.Find(s => s.EmployeeId == reservation.EmployeeId).Surname</td>
                 <td>@reservation.BeginDate</td>
                 <td>@reservation.EndDate</td>
                 <td>
-                   @Html.ActionLink("Delete", "DeleteResourceReservation", new { id = reservation.ResourceResId })
+                    @Html.ActionLink("Delete", "DeleteRoomReservation", new { id = reservation.RoomResId })
                 </td>
             </tr>
             }

@@ -125,6 +125,24 @@ namespace APSI_ResevationMod.Core_Logic
             }
             return reservations;
         }
+        public List<ROOM_RESERVATIONS> GetRoomReservationByPC(string ProjectCode)
+        {
+            List<ROOM_RESERVATIONS> reservations = new List<ROOM_RESERVATIONS>();
+            using (var context = new APSITestDbEntities1())
+            {
+                reservations = context.ROOM_RESERVATIONS.Where(r => r.ProjectCode == ProjectCode).ToList<ROOM_RESERVATIONS>();
+            }
+            return reservations;
+        }
+        public ROOM_RESERVATIONS GetRoomReservationByID(int id)
+        {
+            ROOM_RESERVATIONS reservations = new ROOM_RESERVATIONS();
+            using (var context = new APSITestDbEntities1())
+            {
+                reservations = context.ROOM_RESERVATIONS.First(r => r.RoomResId == id);
+            }
+            return reservations;
+        }
         public static void AddProjectToDB(PROJECTS model)
         {
             using (var context = new Contextt()) 
