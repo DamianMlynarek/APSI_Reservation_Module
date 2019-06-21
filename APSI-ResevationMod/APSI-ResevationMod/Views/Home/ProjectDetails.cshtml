@@ -57,7 +57,11 @@
                     <td>@reservation.EndDate</td>
                     <td>@reservation.Extent</td>
                     <td>
-                        @Html.ActionLink("Delete", "DeleteEmployeeReservation", new { id = reservation.ProjEmplResId })
+                        @{ if (Model.currentUser == 3)
+                            {
+                                @Html.ActionLink("Delete", "DeleteEmployeeReservation", new { id = reservation.ProjEmplResId })
+                                }
+                            }
                     </td>
                 </tr>
             }
@@ -88,7 +92,11 @@
                     <td>@reservation.BeginDate</td>
                     <td>@reservation.EndDate</td>
                     <td>
-                        @Html.ActionLink("Delete", "DeleteResourceReservation", new { id = reservation.ResourceResId })
+                        @{ if (Model.currentUser == 3)
+                            {
+                                @Html.ActionLink("Delete", "DeleteResourceReservation", new { id = reservation.ResourceResId })
+                                }
+                            }
                     </td>
                 </tr>
             }
@@ -117,7 +125,11 @@
                 <td>@reservation.BeginDate</td>
                 <td>@reservation.EndDate</td>
                 <td>
-                    @Html.ActionLink("Delete", "DeleteRoomReservation", new { id = reservation.RoomResId })
+                    @{ if (Model.currentUser == 3)
+                        {
+                        @Html.ActionLink("Delete", "DeleteRoomReservation", new { id = reservation.RoomResId })
+                        }
+                    }
                 </td>
             </tr>
             }

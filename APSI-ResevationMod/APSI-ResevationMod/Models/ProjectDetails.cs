@@ -13,6 +13,7 @@ namespace APSI_ResevationMod.Models
         public List<RESOURCES> resources { get; set; }
         public List<RESOURCES_RESERVATIONS> resourceReservation { get; set; }
         public List<ROOM_RESERVATIONS> roomReservation { get; set; }
+        public int currentUser { get; set; }
         
         public double reservedHours;
     }

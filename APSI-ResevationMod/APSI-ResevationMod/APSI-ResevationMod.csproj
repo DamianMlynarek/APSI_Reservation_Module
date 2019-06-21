@@ -314,6 +314,7 @@
     <Content Include="Views\Home\RoomReservation.cshtml" />
     <Content Include="Views\Home\RoomIsReserved.cshtml" />
     <Content Include="Views\Home\DeleteRoomReservation.cshtml" />
+    <Content Include="Views\Home\WrongEndBeginDate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
