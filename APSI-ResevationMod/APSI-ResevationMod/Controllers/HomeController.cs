@@ -248,7 +248,7 @@ namespace APSI_ResevationMod.Controllers
         {
             return View();
         }
-        public ActionResult ProjectList()
+        public ActionResult ProjectListForProgrammers()
         {
             if (User.Identity.IsAuthenticated == false)
                 return RedirectToAction("NotAuthenticated");
@@ -257,6 +257,26 @@ namespace APSI_ResevationMod.Controllers
             _projects = dbOperations.GetProjects();
             _projectsEmployees = dbOperations.GetEmployeeProjects(_loggedUserId);
             var POProjects = new List<PROJECTS>();
+            foreach (var projectEmp in _projectsEmployees)
+            {
+                POProjects.Add(_projects.Where(s => s.ProjectCode == projectEmp.ProjectCode).FirstOrDefault());
+            }
+            //projects for owner only
+            return View(POProjects);//okrojona lista projektow
+
+        }
+        public ActionResult ProjectList()
+        {
+            if (User.Identity.IsAuthenticated == false)
+                return RedirectToAction("NotAuthenticated");
+
+            if (GetLoggedUserId() != 3)
+                return RedirectToAction("ProjectListForProgrammers");
+                    
+            _loggedUserId = GetLoggedUserId();
+            _projects = dbOperations.GetProjects();
+            _projectsEmployees = dbOperations.GetEmployeeProjects(_loggedUserId);
+            var POProjects = new List<PROJECTS> ();
             foreach (var projectEmp in _projectsEmployees)
             {
                 POProjects.Add(_projects.Where(s => s.ProjectCode == projectEmp.ProjectCode).FirstOrDefault());
@@ -421,7 +441,7 @@ namespace APSI_ResevationMod.Controllers
 
         public int GetLoggedUserId()
         {
-            //return 3;
+            return 2;
             var loggedUser = _employees.Find(e => e.AADName.ToLower() == User.Identity.Name.ToLower());
             var userID = loggedUser.EmployeeId;
             return userID;

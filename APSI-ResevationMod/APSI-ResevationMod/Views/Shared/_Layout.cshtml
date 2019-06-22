@@ -8,6 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -31,7 +32,7 @@
                     <li>@Html.ActionLink("Employees List", "UserList", "Home")</li>
                     <li>@Html.ActionLink("Resource List", "ResourceList", "Home")</li>
                     <li>@Html.ActionLink("Project List", "ProjectList", "Home")</li>
-                    <li>@Html.ActionLink("Room List","RoomList","Home")</li>
+                    <li>@Html.ActionLink("Room List", "RoomList", "Home")</li>
                     <li>@Html.ActionLink("Employee Data", "UserDetails", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -39,15 +40,31 @@
         </div>
     </div>
     <div class="container body-content">
+
+        <div><br /><br /><br /><br /><br /><br />
+        </div>
+        <div>  </div>
+        <div>  </div>
+        <div>  </div>
         @RenderBody()
+        
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
+    <div>  </div>
+    <div>  </div>
+
 
     @Scripts.Render("~/bundles/jquery")
+    <div>  </div>
+    <div>  </div>
+
     @Scripts.Render("~/bundles/bootstrap")
+    <div>  </div>
+    <div>  </div>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>
